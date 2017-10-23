@@ -224,46 +224,58 @@ def tfidf_extractor(corpus, ngram_range=(1,1)):
 # 	plt.show()
 
 
-def main(combined, individual):
+def main(combined, individual, nameOfCombined):
 	
-	array_strings = []
 	count = 1
 
 	if combined:
 		combined_text = ""
 
 		for each_paper in combined:
-#			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
 			combined_text += extract_from_xml(each_paper)
 
 		combined_text_list = process_text(combined_text)
-		array_strings.append(' '.join(combined_text_list))
-
+		plt.figure(count)
+		wordcloud = WordCloud().generate(' '.join(combined_text_list))
+		# plt.subplot(211)
+		plt.imshow(wordcloud, interpolation='bilinear')
+		plt.axis("off")
+		plt.savefig('/Users/Revant/Desktop/WordClouds/' + nameOfCombined)
+		count += 1
 
 	if individual:
+		array_strings = []
+		individual_names = []
+
+		for each in individual:
+			index = each.find('.')
+			individual_names.append(each[:index] + ".png")
+
+
 		for each_paper in individual:
 			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			array_strings.append(' '.join(individual_text_list))
 
-	for each in array_strings:
-		plt.figure(count)
 
-		wordcloud = WordCloud().generate(each)
-		plt.subplot(211)
-		plt.imshow(wordcloud, interpolation='bilinear')
-		plt.axis("off")
+		for i in range(len(array_strings)):
+			plt.figure(count)
+			wordcloud = WordCloud(background_color = "white").generate(array_strings[i])
+			# plt.subplot(211)
+			plt.imshow(wordcloud, interpolation='bilinear')
+			plt.axis("off")
 
-		wordcloud = WordCloud(max_font_size=60).generate(each)
-		# plt.figure()
-		plt.subplot(212)
-		plt.imshow(wordcloud, interpolation="bilinear")
-		plt.axis("off")
+			# wordcloud = WordCloud(max_font_size=60).generate(each)
+			# plt.subplot(212)
+			# plt.imshow(wordcloud, interpolation="bilinear")
+			# plt.axis("off")
 
-		count += 1
+			# plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
+			count += 1
 
-	plt.show()
+		plt.show()
 
 	bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
 	# features = bow_features.todense()
@@ -274,13 +286,17 @@ def main(combined, individual):
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--combined', nargs = '+', default=None)
+	parser.add_argument('--combined', nargs = '+', default = None)
+	parser.add_argument('--nameOfCombined', default = None)
 	parser.add_argument('--individual', nargs = '+', default = None)
 	args = parser.parse_args()
 
-	if (args.combined == None) and (args.individual == None):
+	if (not args.combined) and (not args.individual):
 		print("Sorry, too few arguments inputted.")
 		exit(1)
 
-	main(args.combined, args.individual)
+	if (args.combined and not args.nameOfCombined):
+		print("Please provide name for the combined plot.")
+
+	main(args.combined, args.individual, args.nameOfCombined)
 
