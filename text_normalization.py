@@ -4,10 +4,11 @@ from nltk.stem import WordNetLemmatizer
 import xml.etree.ElementTree as ET
 from pattern.en import tag
 from nltk.corpus import wordnet as wn
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, TfidfTransformer
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import argparse
+import pandas as pd
 
 
 def tokenize_text(text):
@@ -117,15 +118,11 @@ def bow_extractor(corpus, ngram_range):
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
 
-import pandas as pd
-
 def display_features(features, feature_names):
     df = pd.DataFrame(data=features,
                       columns=feature_names)
     print df
 
-
-from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 
 def tfidf_transformer(bow_matrix):
     
@@ -146,6 +143,28 @@ def tfidf_extractor(corpus, ngram_range=(1,1)):
                                  ngram_range=ngram_range)
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
+
+
+def build_feature_matrix(documents, feature_type,
+                         ngram_range=(1, 1), min_df=0.0, max_df=1.0):
+
+    feature_type = feature_type.lower().strip()  
+    
+    if feature_type == 'binary':
+        vectorizer = CountVectorizer(binary=True, min_df=min_df,
+                                     max_df=max_df, ngram_range=ngram_range)
+    elif feature_type == 'frequency':
+        vectorizer = CountVectorizer(binary=False, min_df=min_df,
+                                     max_df=max_df, ngram_range=ngram_range)
+    elif feature_type == 'tfidf':
+        vectorizer = TfidfVectorizer(min_df=min_df, max_df=max_df, 
+                                     ngram_range=ngram_range)
+    else:
+        raise Exception("Wrong feature type entered. Possible values: 'binary', 'frequency', 'tfidf'")
+
+    feature_matrix = vectorizer.fit_transform(documents).astype(float)
+    
+    return vectorizer, feature_matrix
 
 # def main(path_list):
 
@@ -224,7 +243,7 @@ def tfidf_extractor(corpus, ngram_range=(1,1)):
 # 	plt.show()
 
 
-def main(combined, individual, nameOfCombined):
+def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	
 	count = 1
 
@@ -262,7 +281,7 @@ def main(combined, individual, nameOfCombined):
 
 		for i in range(len(array_strings)):
 			plt.figure(count)
-			wordcloud = WordCloud(background_color = "white").generate(array_strings[i])
+			wordcloud = WordCloud().generate(array_strings[i])
 			# plt.subplot(211)
 			plt.imshow(wordcloud, interpolation='bilinear')
 			plt.axis("off")
@@ -272,15 +291,40 @@ def main(combined, individual, nameOfCombined):
 			# plt.imshow(wordcloud, interpolation="bilinear")
 			# plt.axis("off")
 
-			# plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
+			plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
 			count += 1
 
-		plt.show()
+	# bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
+	# # features = bow_features.todense()
+	# # display_features(features, bow_vectorizer.get_feature_names())
+	# transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
 
-	bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
-	# features = bow_features.todense()
-	# display_features(features, bow_vectorizer.get_feature_names())
-	transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
+
+
+	#cosine similarity
+	if toy_corpus:
+		norm_corpus = []
+		for each_paper in toy_corpus:
+			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml(each_paper)
+			individual_text_list = process_text(individual_text)
+			norm_corpus.append(' '.join(individual_text_list))
+
+		tfidf_vectorizer, tfidf_features = build_feature_matrix(norm_corpus,
+                                                        feature_type='tfidf',
+                                                        ngram_range=(1, 1), 
+                                                        min_df=0.0, max_df=1.0)
+
+	if query_docs:
+		norm_query_docs = []
+		for each_paper in query_docs:
+			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml(each_paper)
+			individual_text_list = process_text(individual_text)
+			norm_query_docs.append(' '.join(individual_text_list))
+
+		query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
+
 
 
 if __name__ == '__main__':
@@ -289,14 +333,16 @@ if __name__ == '__main__':
 	parser.add_argument('--combined', nargs = '+', default = None)
 	parser.add_argument('--nameOfCombined', default = None)
 	parser.add_argument('--individual', nargs = '+', default = None)
+	parser.add_argument('--toy_corpus', nargs = '+', default = None)
+	parser.add_argument('--query_docs', nargs = '+', default = None)
 	args = parser.parse_args()
 
-	if (not args.combined) and (not args.individual):
-		print("Sorry, too few arguments inputted.")
-		exit(1)
+	# if (not args.combined) and (not args.individual):
+	# 	print("Sorry, too few arguments inputted.")
+	# 	exit(1)
 
-	if (args.combined and not args.nameOfCombined):
-		print("Please provide name for the combined plot.")
+	# if (args.combined and not args.nameOfCombined):
+	# 	print("Please provide name for the combined plot.")
 
-	main(args.combined, args.individual, args.nameOfCombined)
+	main(args.combined, args.individual, args.nameOfCombined, args.toy_corpus, args.query_docs)
 
