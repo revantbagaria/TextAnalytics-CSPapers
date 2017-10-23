@@ -9,6 +9,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import argparse
 import pandas as pd
+import numpy as np
 
 
 def tokenize_text(text):
@@ -166,6 +167,21 @@ def build_feature_matrix(documents, feature_type,
     
     return vectorizer, feature_matrix
 
+
+def compute_cosine_similarity(doc_features, corpus_features,
+                              top_n=3):
+    # get document vectors
+    doc_features = doc_features[0]
+    # compute similarities
+    similarity = np.dot(doc_features, 
+                        corpus_features.T)
+    similarity = similarity.toarray()[0]
+    # get docs with highest similarity scores
+    top_docs = similarity.argsort()[::-1][:top_n]
+    top_docs_with_score = [(index, round(similarity[index], 3))
+                            for index in top_docs]
+    return top_docs_with_score
+
 # def main(path_list):
 
 # 	# print "This is the name of the script: ", sys.argv[0]
@@ -294,10 +310,10 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 			plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
 			count += 1
 
-	# bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
-	# # features = bow_features.todense()
-	# # display_features(features, bow_vectorizer.get_feature_names())
-	# transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
+		bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
+		# features = bow_features.todense()
+		# display_features(features, bow_vectorizer.get_feature_names())
+		transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
 
 
 
@@ -324,6 +340,25 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 			norm_query_docs.append(' '.join(individual_text_list))
 
 		query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
+
+	print 'Document Similarity Analysis using Cosine Similarity'
+	print '='*60
+
+	for index, doc in enumerate(query_docs):
+	    
+	    doc_tfidf = query_docs_tfidf[index]
+	    top_similar_docs = compute_cosine_similarity(doc_tfidf,
+	                                             tfidf_features,
+	                                             top_n=2)
+	    print 'Document',index+1 ,':', doc
+	    print 'Top', len(top_similar_docs), 'similar docs:'
+	    print '-'*40 
+	    for doc_index, sim_score in top_similar_docs:
+	        print 'Doc num: {} Similarity Score: {}\nDoc: {}'.format(doc_index+1,
+	                                                                 sim_score,
+	                                                                 toy_corpus[doc_index])  
+	        print '-'*40       
+	    print 
 
 
 
