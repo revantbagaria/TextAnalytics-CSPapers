@@ -1,8 +1,8 @@
-import text_normalization, text_similarity, extract_from_xml
+import text_normalization, text_similarity, extract_from_xml, construct_wordcloud
 import argparse
 
 
-# text = extract_from_xml.extract_from_xml("/Users/Revant/Desktop/CSpapers/ft/CIDR_17_001.cermxml")
+# text = extract_from_xml.extract_from_xml("/Users/Revant/Desktop/ThesisCSpapers/ft/CIDR_17_001.cermxml")
 # print(text_normalization.process_text(text))
 
 
@@ -15,16 +15,16 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 		combined_text = ""
 
 		for each_paper in combined:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			combined_text += text_normalization.extract_from_xml(each_paper)
 
 		combined_text_list = text_normalization.process_text(combined_text)
-		plt.figure(count)
-		wordcloud = WordCloud().generate(' '.join(combined_text_list))
-		# plt.subplot(211)
-		plt.imshow(wordcloud, interpolation='bilinear')
-		plt.axis("off")
-		plt.savefig('/Users/Revant/Desktop/WordClouds/' + nameOfCombined)
+		construct_wordcloud.wordcloud(combined_text_list, nameOfCombined, count)
+		# plt.figure(count)
+		# wordcloud = WordCloud().generate(' '.join(combined_text_list))
+		# plt.imshow(wordcloud, interpolation='bilinear')
+		# plt.axis("off")
+		# plt.savefig('/Users/Revant/Desktop/WordClouds/' + nameOfCombined)
 		count += 1
 
 	if individual:
@@ -37,25 +37,27 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 
 
 		for each_paper in individual:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			array_strings.append(' '.join(individual_text_list))
 
 
 		for i in range(len(array_strings)):
-			plt.figure(count)
-			wordcloud = WordCloud().generate(array_strings[i])
-			# plt.subplot(211)
-			plt.imshow(wordcloud, interpolation='bilinear')
-			plt.axis("off")
-
-			# wordcloud = WordCloud(max_font_size=60).generate(each)
-			# plt.subplot(212)
-			# plt.imshow(wordcloud, interpolation="bilinear")
+			construct_wordcloud.wordcloud(array_strings[i], individual_names[i], count)
+			
+			# plt.figure(count)
+			# wordcloud = WordCloud().generate(array_strings[i])
+			# # plt.subplot(211)
+			# plt.imshow(wordcloud, interpolation='bilinear')
 			# plt.axis("off")
 
-			plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
+			# # wordcloud = WordCloud(max_font_size=60).generate(each)
+			# # plt.subplot(212)
+			# # plt.imshow(wordcloud, interpolation="bilinear")
+			# # plt.axis("off")
+
+			# plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
 			count += 1
 
 		bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
@@ -69,7 +71,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	if toy_corpus:
 		norm_corpus = []
 		for each_paper in toy_corpus:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			norm_corpus.append(' '.join(individual_text_list))
@@ -82,7 +84,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	if query_docs:
 		norm_query_docs = []
 		for each_paper in query_docs:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			norm_query_docs.append(' '.join(individual_text_list))

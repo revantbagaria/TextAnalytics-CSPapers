@@ -1,11 +1,9 @@
 from contraction_mapping import contraction_dict
 import re, nltk, string, sys
 from nltk.stem import WordNetLemmatizer
-import xml.etree.ElementTree as ET
 from pattern.en import tag
 from nltk.corpus import wordnet as wn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, TfidfTransformer
-from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -81,7 +79,7 @@ def extract_from_xml(path):
 
 	for back in root.iter('back'):
 		back.clear()
-		
+
 	if text is None:
 		text = ""
 	text = text + ' '.join(root.itertext())
@@ -173,7 +171,7 @@ def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
 # 	# print "Number of arguments: ", len(sys.argv)
 # 	# print "The arguments are: " , str(sys.argv)
 # 	array_strings = []
-# 	text = extract_from_xml('/Users/Revant/Desktop/CSpapers/ft/CIDR_17_008.cermxml')
+# 	text = extract_from_xml('/Users/Revant/Desktop/ThesisCSpapers/ft/CIDR_17_008.cermxml')
 # 	text_list = process_text(text)
 # 	# print(text_list)
 # 	array_strings.append(' '.join(text_list))
@@ -214,7 +212,7 @@ def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
 # 	array_strings = []
 
 # 	for each in sys.argv[1:]:
-# 		each = '/Users/Revant/Desktop/CSpapers/ft/' + str(each)
+# 		each = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each)
 # 		text = extract_from_xml(each)
 # 		text_list = process_text(text)
 # 		array_strings.append(' '.join(text_list))
@@ -252,7 +250,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 		combined_text = ""
 
 		for each_paper in combined:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			combined_text += extract_from_xml(each_paper)
 
 		combined_text_list = process_text(combined_text)
@@ -274,7 +272,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 
 
 		for each_paper in individual:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			array_strings.append(' '.join(individual_text_list))
@@ -306,7 +304,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	if toy_corpus:
 		norm_corpus = []
 		for each_paper in toy_corpus:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			norm_corpus.append(' '.join(individual_text_list))
@@ -319,7 +317,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	if query_docs:
 		norm_query_docs = []
 		for each_paper in query_docs:
-			each_paper = '/Users/Revant/Desktop/CSpapers/ft/' + str(each_paper)
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml(each_paper)
 			individual_text_list = process_text(individual_text)
 			norm_query_docs.append(' '.join(individual_text_list))
