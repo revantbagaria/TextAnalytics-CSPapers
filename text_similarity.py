@@ -25,18 +25,18 @@ terms = [root, term1, term2, term3]
 
 vec_root, vec_term1, vec_term2, vec_term3 = vectorize_terms(terms)
 
-print(vec_root)
-print(vec_term1)
-print(vec_term2)
-print(vec_term3)
+# print(vec_root)
+# print(vec_term1)
+# print(vec_term2)
+# print(vec_term3)
 
 
 features, (boc_root, boc_term1, boc_term2, boc_term3) = boc_term_vectors(terms)
 
-print(boc_root)
-print(boc_term1)
-print(boc_term2)
-print(boc_term3)
+# print(boc_root)
+# print(boc_term1)
+# print(boc_term2)
+# print(boc_term3)
 
 
 root_term = root

@@ -168,8 +168,7 @@ def build_feature_matrix(documents, feature_type,
     return vectorizer, feature_matrix
 
 
-def compute_cosine_similarity(doc_features, corpus_features,
-                              top_n=3):
+def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
     # get document vectors
     doc_features = doc_features[0]
     # compute similarities
