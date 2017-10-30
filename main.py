@@ -16,7 +16,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 
 		for each_paper in combined:
 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			combined_text += text_normalization.extract_from_xml(each_paper)
+			combined_text += extract_from_xml.extract_from_xml(each_paper)
 
 		combined_text_list = text_normalization.process_text(combined_text)
 		construct_wordcloud.wordcloud(combined_text_list, nameOfCombined, count)
@@ -38,8 +38,8 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 
 		for each_paper in individual:
 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml(each_paper)
-			individual_text_list = process_text(individual_text)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
 			array_strings.append(' '.join(individual_text_list))
 
 
