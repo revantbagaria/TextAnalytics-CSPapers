@@ -7,7 +7,6 @@ from nltk.corpus import wordnet as wn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, TfidfTransformer
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-import argparse
 import pandas as pd
 import numpy as np
 
@@ -71,17 +70,6 @@ def remove_special_characters(tokens):
 	tokens])
 	return filtered_tokens
 
-# tree = ET.parse('/Users/Revant/Desktop/CSpapers/ft/CIDR_17_008.cermxml')
-# root = tree.getroot()
-# abstract_text = root.find('front/article-meta/abstract/p').text
-
-# expanded_abstract = expandContractions(abstract_text)
-# lemmatized = lemmatize_text(expanded_abstract)
-# tokenized_expanded_abstract = tokenize_text(lemmatized)
-
-# stopwords = remove_stopwords(tokenized_expanded_abstract)
-# special_characters = remove_special_characters(stopwords)
-
 def extract_from_xml(path):
 	tree = ET.parse(path)
 	root1 = tree.getroot()
@@ -93,9 +81,7 @@ def extract_from_xml(path):
 
 	for back in root.iter('back'):
 		back.clear()
-
-	# print(path)
-	# print(text)
+		
 	if text is None:
 		text = ""
 	text = text + ' '.join(root.itertext())
@@ -361,22 +347,22 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--combined', nargs = '+', default = None)
-	parser.add_argument('--nameOfCombined', default = None)
-	parser.add_argument('--individual', nargs = '+', default = None)
-	parser.add_argument('--toy_corpus', nargs = '+', default = None)
-	parser.add_argument('--query_docs', nargs = '+', default = None)
-	args = parser.parse_args()
+# 	parser = argparse.ArgumentParser()
+# 	parser.add_argument('--combined', nargs = '+', default = None)
+# 	parser.add_argument('--nameOfCombined', default = None)
+# 	parser.add_argument('--individual', nargs = '+', default = None)
+# 	parser.add_argument('--toy_corpus', nargs = '+', default = None)
+# 	parser.add_argument('--query_docs', nargs = '+', default = None)
+# 	args = parser.parse_args()
 
-	# if (not args.combined) and (not args.individual):
-	# 	print("Sorry, too few arguments inputted.")
-	# 	exit(1)
+# 	# if (not args.combined) and (not args.individual):
+# 	# 	print("Sorry, too few arguments inputted.")
+# 	# 	exit(1)
 
-	# if (args.combined and not args.nameOfCombined):
-	# 	print("Please provide name for the combined plot.")
+# 	# if (args.combined and not args.nameOfCombined):
+# 	# 	print("Please provide name for the combined plot.")
 
-	main(args.combined, args.individual, args.nameOfCombined, args.toy_corpus, args.query_docs)
+# 	main(args.combined, args.individual, args.nameOfCombined, args.toy_corpus, args.query_docs)
 
