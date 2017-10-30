@@ -72,8 +72,8 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 		norm_corpus = []
 		for each_paper in toy_corpus:
 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml(each_paper)
-			individual_text_list = process_text(individual_text)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = process_text.process_text(individual_text)
 			norm_corpus.append(' '.join(individual_text_list))
 
 		tfidf_vectorizer, tfidf_features = build_feature_matrix(norm_corpus,

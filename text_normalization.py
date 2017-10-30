@@ -4,12 +4,12 @@ from nltk.stem import WordNetLemmatizer
 from pattern.en import tag
 from nltk.corpus import wordnet as wn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, TfidfTransformer
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
 
 def tokenize_text(text):
+	text = text.lower()
 	tokens = nltk.word_tokenize(text)
 	tokens = [token.strip() for token in tokens]
 	return tokens
@@ -41,9 +41,7 @@ def pos_tag_text(text):
 def lemmatize_text(text):
 	wnl = WordNetLemmatizer()
 	pos_tagged_text = pos_tag_text(text)
-	lemmatized_tokens = [wnl.lemmatize(word, pos_tag) if pos_tag
-	else word
-	for word, pos_tag in pos_tagged_text]
+	lemmatized_tokens = [wnl.lemmatize(word, pos_tag) if pos_tag else word for word, pos_tag in pos_tagged_text]
 	lemmatized_text = ' '.join(lemmatized_tokens)
 	return lemmatized_text
 
@@ -67,23 +65,6 @@ def remove_special_characters(tokens):
 	filtered_tokens = filter(None, [pattern.sub('', token) for token in
 	tokens])
 	return filtered_tokens
-
-def extract_from_xml(path):
-	tree = ET.parse(path)
-	root1 = tree.getroot()
-	root = tree.getroot()
-
-	text = root1.find('front/article-meta/abstract/p').text
-	for front in root.iter('front'):
-		front.clear()
-
-	for back in root.iter('back'):
-		back.clear()
-
-	if text is None:
-		text = ""
-	text = text + ' '.join(root.itertext())
-	return text
 
 def process_text(text):
 	text = remove_numbers(text)
@@ -129,41 +110,6 @@ def tfidf_extractor(corpus, ngram_range=(1,1)):
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
 
-
-def build_feature_matrix(documents, feature_type,
-                         ngram_range=(1, 1), min_df=0.0, max_df=1.0):
-
-    feature_type = feature_type.lower().strip()  
-    
-    if feature_type == 'binary':
-        vectorizer = CountVectorizer(binary=True, min_df=min_df,
-                                     max_df=max_df, ngram_range=ngram_range)
-    elif feature_type == 'frequency':
-        vectorizer = CountVectorizer(binary=False, min_df=min_df,
-                                     max_df=max_df, ngram_range=ngram_range)
-    elif feature_type == 'tfidf':
-        vectorizer = TfidfVectorizer(min_df=min_df, max_df=max_df, 
-                                     ngram_range=ngram_range)
-    else:
-        raise Exception("Wrong feature type entered. Possible values: 'binary', 'frequency', 'tfidf'")
-
-    feature_matrix = vectorizer.fit_transform(documents).astype(float)
-    
-    return vectorizer, feature_matrix
-
-
-def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
-    # get document vectors
-    doc_features = doc_features[0]
-    # compute similarities
-    similarity = np.dot(doc_features, 
-                        corpus_features.T)
-    similarity = similarity.toarray()[0]
-    # get docs with highest similarity scores
-    top_docs = similarity.argsort()[::-1][:top_n]
-    top_docs_with_score = [(index, round(similarity[index], 3))
-                            for index in top_docs]
-    return top_docs_with_score
 
 # def main(path_list):
 
