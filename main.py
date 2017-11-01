@@ -1,4 +1,4 @@
-import text_normalization, text_similarity, extract_from_xml, construct_wordcloud
+import text_normalization, text_similarity, extract_from_xml, construct_wordcloud, feature_extractor
 import argparse
 
 
@@ -60,10 +60,10 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 			# plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
 			count += 1
 
-		bow_vectorizer, bow_features = text_normalization.bow_extractor(array_strings, (1, 1))
+		bow_vectorizer, bow_features = feature_extractor.bow_extractor(array_strings, (1, 1))
 		# features = bow_features.todense()
 		# display_features(features, bow_vectorizer.get_feature_names())
-		transformer, tfidf_matrix = text_normalization.tfidf_transformer(bow_features.todense())
+		transformer, tfidf_matrix = feature_extractor.tfidf_transformer(bow_features.todense())
 
 
 
@@ -76,7 +76,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 			individual_text_list = text_normalization.process_text(individual_text)
 			norm_corpus.append(' '.join(individual_text_list))
 
-		tfidf_vectorizer, tfidf_features = text_similarity.build_feature_matrix(norm_corpus,
+		tfidf_vectorizer, tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
                                                         feature_type='tfidf',
                                                         ngram_range=(1, 1), 
                                                         min_df=0.0, max_df=1.0)
