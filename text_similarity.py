@@ -83,6 +83,7 @@ def build_feature_matrix(documents, feature_type,
     feature_matrix = vectorizer.fit_transform(documents).astype(float)
     
     return vectorizer, feature_matrix
+    
 
 def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
     # get document vectors
