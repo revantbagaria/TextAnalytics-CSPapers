@@ -111,183 +111,107 @@ def tfidf_extractor(corpus, ngram_range=(1,1)):
     return vectorizer, features
 
 
-# def main(path_list):
 
-# 	# print "This is the name of the script: ", sys.argv[0]
-# 	# print "Number of arguments: ", len(sys.argv)
-# 	# print "The arguments are: " , str(sys.argv)
-# 	array_strings = []
-# 	text = extract_from_xml('/Users/Revant/Desktop/ThesisCSpapers/ft/CIDR_17_008.cermxml')
-# 	text_list = process_text(text)
-# 	# print(text_list)
-# 	array_strings.append(' '.join(text_list))
-# 	print(array_strings)
-
-# 	# array_strings = []
-
-# 	# for path in path_list:
-# 	# 	text = extract_from_xml(path)
-# 	# 	text_list = process_text(text)
-# 	# 	array_strings.append(' '.join(text_list))
-
-# 	# bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
-# 	# # features = bow_features.todense()
-# 	# # display_features(features, bow_vectorizer.get_feature_names())
+# def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	
-# 	# transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
+# 	count = 1
 
-# 	# # wordcloud = WordCloud().generate(array_strings[-1])
-# 	# # plt.imshow(wordcloud, interpolation='bilinear')
-# 	# # plt.axis("off")
+# 	if combined:
+# 		combined_text = ""
 
-# 	# # wordcloud = WordCloud().generate(array_strings[-2])
-# 	# # plt.imshow(wordcloud, interpolation='bilinear')
-# 	# # plt.axis("off")
+# 		for each_paper in combined:
+# 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+# 			combined_text += extract_from_xml(each_paper)
 
-# 	# wordcloud = WordCloud(max_font_size=60).generate(array_strings[-1])
-# 	# plt.figure()
-# 	# plt.imshow(wordcloud, interpolation="bilinear")
-# 	# plt.axis("off")
+# 		combined_text_list = process_text(combined_text)
+# 		plt.figure(count)
+# 		wordcloud = WordCloud().generate(' '.join(combined_text_list))
+# 		# plt.subplot(211)
+# 		plt.imshow(wordcloud, interpolation='bilinear')
+# 		plt.axis("off")
+# 		plt.savefig('/Users/Revant/Desktop/WordClouds/' + nameOfCombined)
+# 		count += 1
 
-# 	# plt.show()
+# 	if individual:
+# 		array_strings = []
+# 		individual_names = []
 
-
-
-# def main(combined, individual):
-	
-# 	array_strings = []
-
-# 	for each in sys.argv[1:]:
-# 		each = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each)
-# 		text = extract_from_xml(each)
-# 		text_list = process_text(text)
-# 		array_strings.append(' '.join(text_list))
-
-# 	bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
+# 		for each in individual:
+# 			index = each.find('.')
+# 			individual_names.append(each[:index] + ".png")
 
 
-
-# 	# features = bow_features.todense()
-# 	# display_features(features, bow_vectorizer.get_feature_names())
-	
-# 	transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
-
-# 	plt.figure(1)
-
-# 	wordcloud = WordCloud().generate(array_strings[-1])
-# 	plt.subplot(211)
-# 	plt.imshow(wordcloud, interpolation='bilinear')
-# 	plt.axis("off")
-
-# 	wordcloud = WordCloud(max_font_size=60).generate(array_strings[-1])
-# 	# plt.figure()
-# 	plt.subplot(212)
-# 	plt.imshow(wordcloud, interpolation="bilinear")
-# 	plt.axis("off")
-
-# 	plt.show()
+# 		for each_paper in individual:
+# 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+# 			individual_text = extract_from_xml(each_paper)
+# 			individual_text_list = process_text(individual_text)
+# 			array_strings.append(' '.join(individual_text_list))
 
 
-def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
-	
-	count = 1
+# 		for i in range(len(array_strings)):
+# 			plt.figure(count)
+# 			wordcloud = WordCloud().generate(array_strings[i])
+# 			# plt.subplot(211)
+# 			plt.imshow(wordcloud, interpolation='bilinear')
+# 			plt.axis("off")
 
-	if combined:
-		combined_text = ""
+# 			# wordcloud = WordCloud(max_font_size=60).generate(each)
+# 			# plt.subplot(212)
+# 			# plt.imshow(wordcloud, interpolation="bilinear")
+# 			# plt.axis("off")
 
-		for each_paper in combined:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			combined_text += extract_from_xml(each_paper)
+# 			plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
+# 			count += 1
 
-		combined_text_list = process_text(combined_text)
-		plt.figure(count)
-		wordcloud = WordCloud().generate(' '.join(combined_text_list))
-		# plt.subplot(211)
-		plt.imshow(wordcloud, interpolation='bilinear')
-		plt.axis("off")
-		plt.savefig('/Users/Revant/Desktop/WordClouds/' + nameOfCombined)
-		count += 1
-
-	if individual:
-		array_strings = []
-		individual_names = []
-
-		for each in individual:
-			index = each.find('.')
-			individual_names.append(each[:index] + ".png")
-
-
-		for each_paper in individual:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml(each_paper)
-			individual_text_list = process_text(individual_text)
-			array_strings.append(' '.join(individual_text_list))
-
-
-		for i in range(len(array_strings)):
-			plt.figure(count)
-			wordcloud = WordCloud().generate(array_strings[i])
-			# plt.subplot(211)
-			plt.imshow(wordcloud, interpolation='bilinear')
-			plt.axis("off")
-
-			# wordcloud = WordCloud(max_font_size=60).generate(each)
-			# plt.subplot(212)
-			# plt.imshow(wordcloud, interpolation="bilinear")
-			# plt.axis("off")
-
-			plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
-			count += 1
-
-		bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
-		# features = bow_features.todense()
-		# display_features(features, bow_vectorizer.get_feature_names())
-		transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
+# 		bow_vectorizer, bow_features = bow_extractor(array_strings, (1, 1))
+# 		# features = bow_features.todense()
+# 		# display_features(features, bow_vectorizer.get_feature_names())
+# 		transformer, tfidf_matrix = tfidf_transformer(bow_features.todense())
 
 
 
-	#cosine similarity
-	if toy_corpus:
-		norm_corpus = []
-		for each_paper in toy_corpus:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml(each_paper)
-			individual_text_list = process_text(individual_text)
-			norm_corpus.append(' '.join(individual_text_list))
+# 	#cosine similarity
+# 	if toy_corpus:
+# 		norm_corpus = []
+# 		for each_paper in toy_corpus:
+# 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+# 			individual_text = extract_from_xml(each_paper)
+# 			individual_text_list = process_text(individual_text)
+# 			norm_corpus.append(' '.join(individual_text_list))
 
-		tfidf_vectorizer, tfidf_features = build_feature_matrix(norm_corpus,
-                                                        feature_type='tfidf',
-                                                        ngram_range=(1, 1), 
-                                                        min_df=0.0, max_df=1.0)
+# 		tfidf_vectorizer, tfidf_features = build_feature_matrix(norm_corpus,
+#                                                         feature_type='tfidf',
+#                                                         ngram_range=(1, 1), 
+#                                                         min_df=0.0, max_df=1.0)
 
-	if query_docs:
-		norm_query_docs = []
-		for each_paper in query_docs:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml(each_paper)
-			individual_text_list = process_text(individual_text)
-			norm_query_docs.append(' '.join(individual_text_list))
+# 	if query_docs:
+# 		norm_query_docs = []
+# 		for each_paper in query_docs:
+# 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+# 			individual_text = extract_from_xml(each_paper)
+# 			individual_text_list = process_text(individual_text)
+# 			norm_query_docs.append(' '.join(individual_text_list))
 
-		query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
+# 		query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
 
-	print 'Document Similarity Analysis using Cosine Similarity'
-	print '='*60
+# 	print 'Document Similarity Analysis using Cosine Similarity'
+# 	print '='*60
 
-	for index, doc in enumerate(query_docs):
+# 	for index, doc in enumerate(query_docs):
 	    
-	    doc_tfidf = query_docs_tfidf[index]
-	    top_similar_docs = compute_cosine_similarity(doc_tfidf,
-	                                             tfidf_features,
-	                                             top_n=2)
-	    print 'Document',index+1 ,':', doc
-	    print 'Top', len(top_similar_docs), 'similar docs:'
-	    print '-'*40 
-	    for doc_index, sim_score in top_similar_docs:
-	        print 'Doc num: {} Similarity Score: {}\nDoc: {}'.format(doc_index+1,
-	                                                                 sim_score,
-	                                                                 toy_corpus[doc_index])  
-	        print '-'*40       
-	    print 
+# 	    doc_tfidf = query_docs_tfidf[index]
+# 	    top_similar_docs = compute_cosine_similarity(doc_tfidf,
+# 	                                             tfidf_features,
+# 	                                             top_n=2)
+# 	    print 'Document',index+1 ,':', doc
+# 	    print 'Top', len(top_similar_docs), 'similar docs:'
+# 	    print '-'*40 
+# 	    for doc_index, sim_score in top_similar_docs:
+# 	        print 'Doc num: {} Similarity Score: {}\nDoc: {}'.format(doc_index+1,
+# 	                                                                 sim_score,
+# 	                                                                 toy_corpus[doc_index])  
+# 	        print '-'*40       
+# 	    print 
 
 
 
