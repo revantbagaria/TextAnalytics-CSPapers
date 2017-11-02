@@ -69,8 +69,22 @@ def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
     similarity = np.dot(doc_features, 
                         corpus_features.T)
     similarity = similarity.toarray()[0]
-    # get docs with highest similarity scores
-    top_docs = similarity.argsort()[::-1][:top_n]
-    top_docs_with_score = [(index, round(similarity[index], 3))
-                            for index in top_docs]
-    return top_docs_with_score
+
+    return similarity.tolist()
+
+# def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
+#     # get document vectors
+#     doc_features = doc_features[0]
+#     # compute similarities
+#     similarity = np.dot(doc_features, 
+#                         corpus_features.T)
+#     similarity = similarity.toarray()[0]
+
+#     print("here goes the list: ")
+#     print(similarity)
+
+#     # get docs with highest similarity scores
+#     top_docs = similarity.argsort()[::-1][:top_n]
+#     top_docs_with_score = [(index, round(similarity[index], 3))
+#                             for index in top_docs]
+#     return top_docs_with_score
