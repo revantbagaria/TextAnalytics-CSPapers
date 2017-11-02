@@ -122,6 +122,23 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 	print 'Document Similarity Analysis using Cosine Similarity'
 	print '='*60
 
+
+
+	# query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
+	# result = []
+	# for index, doc in enumerate(query_docs_combined1):
+	    
+	#     doc_tfidf = query_docs_tfidf[index]
+	#     result.extend(text_similarity.compute_cosine_similarity(doc_tfidf,
+	#                                              tfidf_features,
+	#                                              top_n=2))
+
+	# result = np.array(result)
+	# print("Mean of CIDR*cerxml: %d" % np.mean(result, dtype=np.float64))
+	# print("Max of CIDR*cerxml: %d" % np.max(result))
+	# print("Min of CIDR*cerxml: %d" % np.min(result))
+	# print("Standard Deviation of CIDR*cerxml: %d" % np.std(result))
+
 	# for index, doc in enumerate(query_docs):
 	    
 	#     doc_tfidf = query_docs_tfidf[index]
@@ -137,14 +154,6 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 	#                                                                  toy_corpus[doc_index])  
 	#         print '-'*40       
 	#     print 
-
-	def mean(arr):
-		s = 0
-
-		for i in range(len(arr)):
-			s += arr[i]
-
-		return (s/len(arr))
 
 	result = []
 	for index, doc in enumerate(query_docs):
