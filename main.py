@@ -2,6 +2,8 @@ from __future__ import division
 import text_normalization, text_similarity, extract_from_xml, construct_wordcloud, feature_extractor
 import numpy as np
 import argparse
+import matplotlib.pyplot as plt
+
 
 
 def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
@@ -122,21 +124,30 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 	    result.extend(text_similarity.compute_cosine_similarity(doc_tfidf,
 	                                             tfidf_features,
 	                                             top_n=2))
-	    # print 'Document',index+1 ,':', doc
-	    # print 'Top', len(top_similar_docs), 'similar docs:'
-	    # print '-'*40 
-	    # for doc_index, sim_score in top_similar_docs:
-	    #     print 'Doc num: {} Similarity Score: {}\nDoc: {}'.format(doc_index+1,
-	    #                                                              sim_score,
-	    #                                                              toy_corpus[doc_index])  
-	    #     print '-'*40       
-	    # print 
+
 	result = np.array(result)
-	print("Mean of CIDR*cerxml: %d" % np.mean(result))
+	print("Mean of CIDR*cerxml: %d" % np.mean(result, dtype=np.float64))
 	print("Max of CIDR*cerxml: %d" % np.max(result))
 	print("Min of CIDR*cerxml: %d" % np.min(result))
 	print("Standard Deviation of CIDR*cerxml: %d" % np.std(result))
 
+
+	# result = []
+	# for index, doc in enumerate(query_docs):
+	    
+	#     doc_tfidf = query_docs_tfidf[index]
+	#     result.append(text_similarity.compute_cosine_similarity(doc_tfidf,
+	#                                              tfidf_features,
+	#                                              top_n=2))
+	
+	# result = np.matrix(result)
+
+	# fig = plt.figure()
+	# ax = fig.add_subplot(1,1,1)
+	# ax.set_aspect('equal')
+	# plt.imshow(result, interpolation='nearest', cmap=plt.cm.ocean)
+	# plt.colorbar()
+	# plt.show()
 
 
 

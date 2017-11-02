@@ -60,7 +60,10 @@ def boc_term_vectors(word_list):
 # 	print 'Cosine distance is {}'.format(distance)
 # 	print 'Cosine similarity is {}'.format(similarity)
 # 	print '-'*40
-    
+  
+
+
+
 
 def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
     # get document vectors
@@ -79,9 +82,6 @@ def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
 #     similarity = np.dot(doc_features, 
 #                         corpus_features.T)
 #     similarity = similarity.toarray()[0]
-
-#     print("here goes the list: ")
-#     print(similarity)
 
 #     # get docs with highest similarity scores
 #     top_docs = similarity.argsort()[::-1][:top_n]
