@@ -1,4 +1,3 @@
-from __future__ import division
 import text_normalization, text_similarity, extract_from_xml, construct_wordcloud, feature_extractor
 import numpy as np
 import argparse
@@ -6,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 
-def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
+def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_docs_combined1, query_docs_combined2, query_docs_combined3):
 	
 	count = 1
 
@@ -67,6 +66,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
 
 
 	#cosine similarity
+
 	if toy_corpus:
 		norm_corpus = []
 		for each_paper in toy_corpus:
@@ -79,6 +79,35 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs):
                                                         feature_type='tfidf',
                                                         ngram_range=(1, 1), 
                                                         min_df=0.0, max_df=1.0)
+
+	norm_query_docs = []
+
+	if query_docs_combined1:
+		s = ""
+		for each_paper in query_docs_combined1:
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
+			s += ' '.join(individual_text_list)
+		norm_query_docs.append(s)
+
+	if query_docs_combined2:
+		s = ""
+		for each_paper in query_docs_combined2:
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
+			s += ' '.join(individual_text_list)
+		norm_query_docs.append(s)
+
+	if query_docs_combined3:
+		s = ""
+		for each_paper in query_docs_combined3:
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
+			s += ' '.join(individual_text_list)
+		norm_query_docs.append(s)
 
 	if query_docs:
 		norm_query_docs = []
@@ -160,6 +189,9 @@ if __name__ == '__main__':
 	parser.add_argument('--individual', nargs = '+', default = None)
 	parser.add_argument('--toy_corpus', nargs = '+', default = None)
 	parser.add_argument('--query_docs', nargs = '+', default = None)
+	parser.add_argument('--query_docs_combined1', nargs = '+', default = None)
+	parser.add_argument('--query_docs_combined2', nargs = '+', default = None)
+	parser.add_argument('--query_docs_combined3', nargs = '+', default = None)
 	args = parser.parse_args()
 
 	# if (not args.combined) and (not args.individual):
@@ -169,4 +201,4 @@ if __name__ == '__main__':
 	# if (args.combined and not args.nameOfCombined):
 	# 	print("Please provide name for the combined plot.")
 
-	main(args.combined, args.individual, args.nameOfCombined, args.toy_corpus, args.query_docs)
+	main(args.combined, args.individual, args.nameOfCombined, args.toy_corpus, args.query_docs, args.query_docs_combined1, args.query_docs_combined2, args.query_docs_combined3)
