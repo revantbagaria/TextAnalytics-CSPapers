@@ -58,10 +58,10 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 			# plt.savefig("/Users/Revant/Desktop/" + "WordClouds/" + individual_names[i])
 			count += 1
 
-		bow_vectorizer, bow_features = feature_extractor.bow_extractor(array_strings, (1, 1))
+		# bow_vectorizer, bow_features = feature_extractor.bow_extractor(array_strings, (1, 1))
 		# features = bow_features.todense()
 		# display_features(features, bow_vectorizer.get_feature_names())
-		transformer, tfidf_matrix = feature_extractor.tfidf_transformer(bow_features.todense())
+		# transformer, tfidf_matrix = feature_extractor.tfidf_transformer(bow_features.todense())
 
 
 
@@ -80,34 +80,34 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
                                                         ngram_range=(1, 1), 
                                                         min_df=0.0, max_df=1.0)
 
-	norm_query_docs = []
+	# norm_query_docs = []
 
-	if query_docs_combined1:
-		s = ""
-		for each_paper in query_docs_combined1:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml.extract_from_xml(each_paper)
-			individual_text_list = text_normalization.process_text(individual_text)
-			s += ' '.join(individual_text_list)
-		norm_query_docs.append(s)
+	# if query_docs_combined1:
+	# 	s = ""
+	# 	for each_paper in query_docs_combined1:
+	# 		each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+	# 		individual_text = extract_from_xml.extract_from_xml(each_paper)
+	# 		individual_text_list = text_normalization.process_text(individual_text)
+	# 		s += ' '.join(individual_text_list)
+	# 	norm_query_docs.append(s)
 
-	if query_docs_combined2:
-		s = ""
-		for each_paper in query_docs_combined2:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml.extract_from_xml(each_paper)
-			individual_text_list = text_normalization.process_text(individual_text)
-			s += ' '.join(individual_text_list)
-		norm_query_docs.append(s)
+	# if query_docs_combined2:
+	# 	s = ""
+	# 	for each_paper in query_docs_combined2:
+	# 		each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+	# 		individual_text = extract_from_xml.extract_from_xml(each_paper)
+	# 		individual_text_list = text_normalization.process_text(individual_text)
+	# 		s += ' '.join(individual_text_list)
+	# 	norm_query_docs.append(s)
 
-	if query_docs_combined3:
-		s = ""
-		for each_paper in query_docs_combined3:
-			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-			individual_text = extract_from_xml.extract_from_xml(each_paper)
-			individual_text_list = text_normalization.process_text(individual_text)
-			s += ' '.join(individual_text_list)
-		norm_query_docs.append(s)
+	# if query_docs_combined3:
+	# 	s = ""
+	# 	for each_paper in query_docs_combined3:
+	# 		each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+	# 		individual_text = extract_from_xml.extract_from_xml(each_paper)
+	# 		individual_text_list = text_normalization.process_text(individual_text)
+	# 		s += ' '.join(individual_text_list)
+	# 	norm_query_docs.append(s)
 
 	if query_docs:
 		norm_query_docs = []
@@ -124,6 +124,10 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 
 
 
+	###### IMPORTANT NOTE: WE USE 'allclose' instead 'array_equiv' or 'array_equal' inorder to compare these arrays as the elements in these arrays are extremely small values
+	print(np.allclose(query_docs_tfidf.toarray(), tfidf_features.toarray()))
+
+	query_docs_tfidf = query_docs_tfidf.toarray()
 	# query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
 	# result = []
 	# for index, doc in enumerate(query_docs_combined1):
@@ -163,11 +167,14 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 	                                             tfidf_features,
 	                                             top_n=2))
 
-	result = np.array(result)
-	print("Mean of CIDR*cerxml: %d" % np.mean(result, dtype=np.float64))
-	print("Max of CIDR*cerxml: %d" % np.max(result))
-	print("Min of CIDR*cerxml: %d" % np.min(result))
-	print("Standard Deviation of CIDR*cerxml: %d" % np.std(result))
+	# print(sum(result)/len(result))
+	# print(min(result))
+	# print(max(result))
+	# print(np.finfo(10.1))
+	print("Mean of CIDR: %f" % np.mean(result))
+	print("Max of CIDR: %f" % np.max(result))
+	print("Min of CIDR: %f" % np.min(result))
+	print("Standard Deviation of CIDR: %f" % np.std(result))
 
 
 	# result = []

@@ -67,13 +67,15 @@ def boc_term_vectors(word_list):
 
 def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
     # get document vectors
-    doc_features = doc_features[0]
+    # print("############\n", doc_features)
+    # doc_features = doc_features[0]
     # compute similarities
     similarity = np.dot(doc_features, 
-                        corpus_features.T)
-    similarity = similarity.toarray()[0]
+                        corpus_features.T.toarray())
 
-    return similarity.tolist()
+    # similarity = similarity.toarray()[0]
+
+    return similarity
 
 # def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
 #     # get document vectors
