@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 
-def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_docs_combined1, query_docs_combined2, query_docs_combined3):
+def main(combined, individual, nameOfCombined, corpus_docs, query_docs, query_docs_combined1, query_docs_combined2, query_docs_combined3):
 	
 	count = 1
 
@@ -67,9 +67,9 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 
 	#cosine similarity
 
-	if toy_corpus:
+	if corpus_docs:
 		norm_corpus = []
-		for each_paper in toy_corpus:
+		for each_paper in corpus_docs:
 			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
 			individual_text = extract_from_xml.extract_from_xml(each_paper)
 			individual_text_list = text_normalization.process_text(individual_text)
@@ -155,7 +155,7 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 	#     for doc_index, sim_score in top_similar_docs:
 	#         print 'Doc num: {} Similarity Score: {}\nDoc: {}'.format(doc_index+1,
 	#                                                                  sim_score,
-	#                                                                  toy_corpus[doc_index])  
+	#                                                                  corpus[doc_index])  
 	#         print '-'*40       
 	#     print 
 
@@ -167,14 +167,10 @@ def main(combined, individual, nameOfCombined, toy_corpus, query_docs, query_doc
 	                                             tfidf_features,
 	                                             top_n=2))
 
-	# print(sum(result)/len(result))
-	# print(min(result))
-	# print(max(result))
-	# print(np.finfo(10.1))
-	print("Mean of CIDR: %f" % np.mean(result))
-	print("Max of CIDR: %f" % np.max(result))
-	print("Min of CIDR: %f" % np.min(result))
-	print("Standard Deviation of CIDR: %f" % np.std(result))
+	print("Mean of VEE: %f" % np.mean(result))
+	print("Max of VEE: %f" % np.max(result))
+	print("Min of VEE: %f" % np.min(result))
+	print("Standard Deviation of VEE: %f" % np.std(result))
 
 
 	# result = []
@@ -203,7 +199,7 @@ if __name__ == '__main__':
 	parser.add_argument('--combined', nargs = '+', default = None)
 	parser.add_argument('--nameOfCombined', default = None)
 	parser.add_argument('--individual', nargs = '+', default = None)
-	parser.add_argument('--toy_corpus', nargs = '+', default = None)
+	parser.add_argument('--corpus_docs', nargs = '+', default = None)
 	parser.add_argument('--query_docs', nargs = '+', default = None)
 	parser.add_argument('--query_docs_combined1', nargs = '+', default = None)
 	parser.add_argument('--query_docs_combined2', nargs = '+', default = None)
@@ -217,4 +213,4 @@ if __name__ == '__main__':
 	# if (args.combined and not args.nameOfCombined):
 	# 	print("Please provide name for the combined plot.")
 
-	main(args.combined, args.individual, args.nameOfCombined, args.toy_corpus, args.query_docs, args.query_docs_combined1, args.query_docs_combined2, args.query_docs_combined3)
+	main(args.combined, args.individual, args.nameOfCombined, args.corpus_docs, args.query_docs, args.query_docs_combined1, args.query_docs_combined2, args.query_docs_combined3)
