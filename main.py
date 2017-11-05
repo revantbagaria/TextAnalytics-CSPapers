@@ -80,34 +80,39 @@ def main(combined, individual, nameOfCombined, corpus_docs, query_docs, query_do
                                                         ngram_range=(1, 1), 
                                                         min_df=0.0, max_df=1.0)
 
-	# norm_query_docs = []
+	norm_query_docs = []
 
-	# if query_docs_combined1:
-	# 	s = ""
-	# 	for each_paper in query_docs_combined1:
-	# 		each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-	# 		individual_text = extract_from_xml.extract_from_xml(each_paper)
-	# 		individual_text_list = text_normalization.process_text(individual_text)
-	# 		s += ' '.join(individual_text_list)
-	# 	norm_query_docs.append(s)
+	if query_docs_combined1:
+		s = ""
+		for each_paper in query_docs_combined1:
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
+			s += ' '.join(individual_text_list)
+		norm_query_docs.append(s)
 
-	# if query_docs_combined2:
-	# 	s = ""
-	# 	for each_paper in query_docs_combined2:
-	# 		each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-	# 		individual_text = extract_from_xml.extract_from_xml(each_paper)
-	# 		individual_text_list = text_normalization.process_text(individual_text)
-	# 		s += ' '.join(individual_text_list)
-	# 	norm_query_docs.append(s)
+	if query_docs_combined2:
+		s = ""
+		for each_paper in query_docs_combined2:
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
+			s += ' '.join(individual_text_list)
+		norm_query_docs.append(s)
 
-	# if query_docs_combined3:
-	# 	s = ""
-	# 	for each_paper in query_docs_combined3:
-	# 		each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
-	# 		individual_text = extract_from_xml.extract_from_xml(each_paper)
-	# 		individual_text_list = text_normalization.process_text(individual_text)
-	# 		s += ' '.join(individual_text_list)
-	# 	norm_query_docs.append(s)
+	if query_docs_combined3:
+		s = ""
+		for each_paper in query_docs_combined3:
+			each_paper = '/Users/Revant/Desktop/ThesisCSpapers/ft/' + str(each_paper)
+			individual_text = extract_from_xml.extract_from_xml(each_paper)
+			individual_text_list = text_normalization.process_text(individual_text)
+			s += ' '.join(individual_text_list)
+		norm_query_docs.append(s)
+
+	# tfidf_vectorizer, tfidf_features = feature_extractor.build_feature_matrix(norm_query_docs,
+ #                                                        feature_type='tfidf',
+ #                                                        ngram_range=(1, 1), 
+ #                                                        min_df=0.0, max_df=1.0)
 
 	if query_docs:
 		norm_query_docs = []
@@ -117,7 +122,7 @@ def main(combined, individual, nameOfCombined, corpus_docs, query_docs, query_do
 			individual_text_list = text_normalization.process_text(individual_text)
 			norm_query_docs.append(' '.join(individual_text_list))
 
-		query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
+	query_docs_tfidf = tfidf_vectorizer.transform(norm_query_docs)
 
 	print 'Document Similarity Analysis using Cosine Similarity'
 	print '='*60
@@ -159,6 +164,19 @@ def main(combined, individual, nameOfCombined, corpus_docs, query_docs, query_do
 	#         print '-'*40       
 	#     print 
 
+	# result = []
+	# for index in range(3):
+	    
+	#     doc_tfidf = query_docs_tfidf[index]
+	#     result.extend(text_similarity.compute_cosine_similarity(doc_tfidf,
+	#                                              tfidf_features,
+	#                                              top_n=2))
+
+	# print("Mean of combined (CIDR, HCW, VEE): %f" % np.mean(result))
+	# print("Max of combined (CIDR, HCW, VEE): %f" % np.max(result))
+	# print("Min of combined (CIDR, HCW, VEE): %f" % np.min(result))
+	# print("Standard Deviation of combined (CIDR, HCW, VEE): %f" % np.std(result))
+
 	result = []
 	for index, doc in enumerate(query_docs):
 	    
@@ -167,10 +185,10 @@ def main(combined, individual, nameOfCombined, corpus_docs, query_docs, query_do
 	                                             tfidf_features,
 	                                             top_n=2))
 
-	print("Mean of VEE: %f" % np.mean(result))
-	print("Max of VEE: %f" % np.max(result))
-	print("Min of VEE: %f" % np.min(result))
-	print("Standard Deviation of VEE: %f" % np.std(result))
+	print("Mean of : %f" % np.mean(result))
+	print("Max of : %f" % np.max(result))
+	print("Min of : %f" % np.min(result))
+	print("Standard Deviation of : %f" % np.std(result))
 
 
 	# result = []
