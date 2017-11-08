@@ -8,5 +8,5 @@ Currently working on this as my capstone project - Doing a textual analysis of c
 ● Text Summarization: topic modelling (LDA), word2vec
 ● Text Similarity: cosine similarity
 
-
-broader
+Trying to answer the following overarching question:
+Can we use the current information to predict the relevant topics in computer systems in the near future?
