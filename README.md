@@ -3,7 +3,7 @@ Textual Analysis of 1500 recent academic papers in computer systems using Natura
 
 Currently working on this as my capstone project - Doing a textual analysis of close to 1500 recent academic papers in the field of computer systems from top conferences using natural language processing. Performing the following to extract meaningful relationships and statistics about their content:
 ● Text Normalization: tokening, lemmatizing, stemming, parts of speech tagging, removing stopwords, etc
-● Text Classification: featur extraction (tf-idf & bag of words), classification algorithms (Multinomial Naive Bayes & SVM)
+● Text Classification: feature extraction (tf-idf & bag of words), classification algorithms (Multinomial Naive Bayes & SVM)
 ● Text Summarization: topic modelling (LDA), word2vec
 ● Text Similarity: cosine similarity
 
