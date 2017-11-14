@@ -9,3 +9,6 @@ Currently working on this as my capstone project - Doing a textual analysis of c
 
 Trying to answer the following overarching question:
 Can we use the current information to predict the relevant topics in computer systems in the near future?
+
+# Note
+This is a work in progress
