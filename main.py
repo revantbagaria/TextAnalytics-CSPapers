@@ -255,22 +255,44 @@ def main(combined, individual, nameOfCombined, corpus_docs, query_docs, query_do
 	# print("Standard Deviation of : %f" % np.std(result))
 
 
-	# result = []
-	# for index, doc in enumerate(query_docs):
-	    
-	#     doc_tfidf = query_docs_tfidf[index]
-	#     result.append(text_similarity.compute_cosine_similarity(doc_tfidf,
-	#                                              tfidf_features,
-	#                                              top_n=2))
-	
-	# result = np.matrix(result)
 
-	# fig = plt.figure()
-	# ax = fig.add_subplot(1,1,1)
-	# ax.set_aspect('equal')
-	# plt.imshow(result, interpolation='nearest', cmap=plt.cm.ocean)
-	# plt.colorbar()
-	# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	result = []
+	for index, doc in enumerate(query_docs):
+	    
+	    doc_tfidf = query_docs_tfidf[index]
+	    result.append(text_similarity.compute_cosine_similarity(doc_tfidf,
+	                                             tfidf_features,
+	                                             top_n=2))
+	
+	result = np.matrix(result)
+
+	fig = plt.figure()
+	ax = fig.add_subplot(1,1,1)
+	ax.set_aspect('equal')
+	plt.imshow(result, interpolation='nearest', cmap=plt.cm.ocean)
+	plt.colorbar()
+	plt.show()
 
 
 
