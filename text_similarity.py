@@ -61,10 +61,6 @@ def boc_term_vectors(word_list):
 # 	print 'Cosine similarity is {}'.format(similarity)
 # 	print '-'*40
   
-
-
-
-
 def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
     # get document vectors
     # print("############\n", doc_features)
@@ -75,7 +71,10 @@ def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
 
     # similarity = similarity.toarray()[0]
 
-    return similarity
+    indices_returned = []
+    indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
+
+    return similarity, indices_returned
 
 # def compute_cosine_similarity(doc_features, corpus_features, top_n=3):
 #     # get document vectors
