@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt, numpy as np, random, pandas as pd
 import findThePapers, generate_text_list, feature_extractor
 from collections import Counter, defaultdict
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AffinityPropagation
 from sklearn.manifold import MDS
 from sklearn.metrics.pairwise import cosine_similarity
 from matplotlib.font_manager import FontProperties
@@ -102,6 +102,14 @@ def print_cluster_data(cluster_data):
         print ', '.join(cluster_details['titles'])
         print '='*40
 
+def affinity_propagation(feature_matrix):
+    
+    sim = feature_matrix * feature_matrix.T
+    sim = sim.todense()
+    ap = AffinityPropagation()
+    ap.fit(sim)
+    clusters = ap.labels_          
+    return ap, clusters
 
 def k_means(feature_matrix, num_clusters=5):
     km = KMeans(n_clusters=num_clusters, max_iter=10000)
@@ -121,21 +129,28 @@ def clustering(files):
     
     feature_names = files_tfidf_vectorizer.get_feature_names()
     num_clusters = 5  
-    km_obj, clusters = k_means(files_tfidf_features, num_clusters)
+    # km_obj, clusters = k_means(files_tfidf_features, num_clusters)
+    ap_obj, clusters = affinity_propagation(feature_matrix=files_tfidf_features)
 
     c = Counter(clusters)
-
+    total_clusters = len(c)
     clusters_dict = defaultdict(lambda: [])
 
     for index, each in enumerate(clusters):
         i = files_extended[index].rfind('/')
         clusters_dict[each].append(files_extended[index][i+1:])
 
-    cluster_data =  get_cluster_data(clustering_obj=km_obj,
+    # cluster_data =  get_cluster_data(clustering_obj=km_obj,
+    #                              clusters_dict=clusters_dict,
+    #                              feature_names=feature_names,
+    #                              num_clusters=num_clusters,
+    #                              topn_features=5)      
+
+    cluster_data =  get_cluster_data(clustering_obj=ap_obj,
                                  clusters_dict=clusters_dict,
                                  feature_names=feature_names,
-                                 num_clusters=num_clusters,
-                                 topn_features=5)         
+                                 num_clusters=total_clusters,
+                                 topn_features=5)     
 
     print_cluster_data(cluster_data) 
 
@@ -151,4 +166,5 @@ def clustering(files):
               clusters=clusters,
               titles = titles,
               plot_size=(16,8))  
+
 

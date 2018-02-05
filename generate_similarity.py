@@ -2,38 +2,34 @@ import numpy as np
 import findThePapers, generate_text_list, feature_extractor
 
 def compute_cosine_similarity(doc_features, corpus_features):
-	# get document vectors
-	# print("############\n", doc_features)
-	# doc_features = doc_features[0]
-	# compute similarities
 	similarity = np.dot(doc_features, 
 						corpus_features.T.toarray())
-	# similarity = similarity.toarray()[0]
 	indices_returned = []
 	indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
 	return similarity, indices_returned
 
-# def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
-	# result = []
 
+def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
+	result = []
 
-	# for index, doc in enumerate(query_tfidf_features):
+	for index, doc in enumerate(query_tfidf_features):
+		doc_tfidf = query_tfidf_features[index]
+		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
+		indices = [i+1 for i in range(len(similarities))]
+		res = zip(similarities, indices)
 
-	# 	doc_tfidf = query_tfidf_features[index]
-	# 	compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
+		for i, each in enumerate(res):
+			if each[0] == 1:
+				del res[i]
+				break
 
-
-
-
-	# for index, doc in enumerate(query_tfidf_features):
+		res.sort(reverse= True, key = lambda a: a[0])
 		
-	#     doc_tfidf = query_tfidf_features[index]
+		print("The top 3 most similar documents for Query Doc no " + str(index) + ":")
 
+		for i in range(3):
+			print("Corpus doc no " + str(res[i][1]) + ": " + str(res[i][0]))
 
-	#     similarity_computed, indices_returned = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
-
-	#     if similarity_computed != 1:
-	#     	result.append((similarity_computed, index+1))
 
 def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features):
 	
@@ -53,10 +49,10 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features):
 	index_max = indices[np.argmax(result)]
 	index_min = indices[np.argmin(result)]
 
-	print("Mean of HCW: %f" %np.mean(result))
-	print("Max of HCW: %f, %s" % (np.max(result), index_max,))
-	print("Min of HCW: %f, %s" % (np.min(result), index_min,))
-	print("Standard Deviation of HCW: %f" %np.std(result))
+	print("Mean: %f" %np.mean(result))
+	print("Max: %f, %s" % (np.max(result), index_max,))
+	print("Min: %f, %s" % (np.min(result), index_min,))
+	print("Standard Deviation: %f" %np.std(result))
 
 
 def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, SummarySimilarities):
