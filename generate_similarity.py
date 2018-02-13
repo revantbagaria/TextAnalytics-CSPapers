@@ -2,9 +2,8 @@ import numpy as np
 import findThePapers, generate_text_list, feature_extractor
 
 def compute_cosine_similarity(doc_features, corpus_features):
-	similarity = np.dot(doc_features, 
-						corpus_features.T.toarray())
 	indices_returned = []
+	similarity = np.dot(doc_features, corpus_features.T.toarray())
 	indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
 	return similarity, indices_returned
 
@@ -15,6 +14,7 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
 	for index, doc in enumerate(query_tfidf_features):
 		doc_tfidf = query_tfidf_features[index]
 		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
+
 		indices = [i+1 for i in range(len(similarities))]
 		res = zip(similarities, indices)
 
@@ -23,7 +23,7 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
 				del res[i]
 				break
 
-		res.sort(reverse= True, key = lambda a: a[0])
+		res.sort(reverse=True)
 		
 		print("The top 3 most similar documents for Query Doc no " + str(index) + ":")
 
@@ -38,6 +38,7 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features):
 
 	for index in range(len(query_tfidf_features)):
 		doc_tfidf = query_tfidf_features[index]
+
 		similarities, indices_returned = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features[(index+1):])
 
 		for i in range(len(indices_returned)):

@@ -5,6 +5,11 @@ from sklearn.cluster import KMeans, AffinityPropagation
 from sklearn.manifold import MDS
 from sklearn.metrics.pairwise import cosine_similarity
 from matplotlib.font_manager import FontProperties
+import hdbscan
+from sklearn.cluster import DBSCAN
+from sklearn.decomposition import PCA
+
+
 
 
 def plot_clusters(num_clusters, feature_matrix,
@@ -23,6 +28,7 @@ def plot_clusters(num_clusters, feature_matrix,
               random_state=1)
     # get coordinates of clusters in new low-dimensional space
     plot_positions = mds.fit_transform(cosine_distance)  
+
     x_pos, y_pos = plot_positions[:, 0], plot_positions[:, 1]
     # build cluster plotting data
     cluster_color_map = {}
@@ -126,45 +132,90 @@ def clustering(files):
                                                         feature_type='tfidf',
                                                         ngram_range=(1, 2), 
                                                         min_df=0.24, max_df=0.85)
-    
     feature_names = files_tfidf_vectorizer.get_feature_names()
-    num_clusters = 5  
-    # km_obj, clusters = k_means(files_tfidf_features, num_clusters)
-    ap_obj, clusters = affinity_propagation(feature_matrix=files_tfidf_features)
 
-    c = Counter(clusters)
-    total_clusters = len(c)
-    clusters_dict = defaultdict(lambda: [])
+    hdb_obj = hdbscan.HDBSCAN(min_cluster_size=6)
+    clusters = hdb_obj.fit(files_tfidf_features)
+    print(clusters.labels_)
 
-    for index, each in enumerate(clusters):
-        i = files_extended[index].rfind('/')
-        clusters_dict[each].append(files_extended[index][i+1:])
+    dbscan = DBSCAN(min_samples=2, eps=0.3)
+    dbscan.fit(files_tfidf_features)
+    print(dbscan.labels_)
 
-    # cluster_data =  get_cluster_data(clustering_obj=km_obj,
-    #                              clusters_dict=clusters_dict,
-    #                              feature_names=feature_names,
-    #                              num_clusters=num_clusters,
-    #                              topn_features=5)      
+    dbscan = DBSCAN(min_samples=2, eps=0.3)
+    dbscan.fit(files_tfidf_features)
+    print(dbscan.labels_)
 
-    cluster_data =  get_cluster_data(clustering_obj=ap_obj,
-                                 clusters_dict=clusters_dict,
-                                 feature_names=feature_names,
-                                 num_clusters=total_clusters,
-                                 topn_features=5)     
+    dbscan = DBSCAN(min_samples=2, eps=0.3)
+    dbscan.fit(files_tfidf_features)
+    print(dbscan.labels_)
 
-    print_cluster_data(cluster_data) 
+    dbscan = DBSCAN(min_samples=2, eps=0.3)
+    dbscan.fit(files_tfidf_features)
+    print(dbscan.labels_)
 
-    titles = []
+    db = DBSCAN(eps=0.3, min_samples=2).fit(files_tfidf_features)
+    labels = db.labels_
+    print(labels)
 
-    for each in files_extended:
-        index = each.rfind('/')
-        titles.append(each[index+1:])
+    # num_clusters = 3
+    # # km_obj, clusters = k_means(files_tfidf_features, num_clusters)
+    # # ap_obj, clusters = affinity_propagation(feature_matrix=files_tfidf_features)
 
-    plot_clusters(num_clusters=num_clusters, 
-              feature_matrix=files_tfidf_features,
-              cluster_data=cluster_data, 
-              clusters=clusters,
-              titles = titles,
-              plot_size=(16,8))  
+    # c = Counter(clusters)
+    # total_clusters = len(c)
+    # clusters_dict = defaultdict(lambda: [])
+
+    # titles = []
+
+    # for each in files_extended:
+    #   index = each.rfind('/')
+    #   titles.append(each[index+1:])
+
+    # for index, each in enumerate(clusters.labels_):
+    #     clusters_dict[each].append(titles[index])
+
+    # # # cluster_data =  get_cluster_data(clustering_obj=km_obj,
+    # # #                              clusters_dict=clusters_dict,
+    # # #                              feature_names=feature_names,
+    # # #                              num_clusters=num_clusters,
+    # # #                              topn_features=5)      
+
+    # # # # cluster_data =  get_cluster_data(clustering_obj=ap_obj,
+    # # # #                              clusters_dict=clusters_dict,
+    # # # #                              feature_names=feature_names,
+    # # # #                              num_clusters=total_clusters,
+    # # # #                              topn_features=5)     
+
+    # # cluster_data =  get_cluster_data(clustering_obj=hdb_obj,
+    # #                              clusters_dict=clusters_dict,
+    # #                              feature_names=feature_names,
+    # #                              num_clusters=num_clusters,
+    # #                              topn_features=5)  
+
+    # print_cluster_data(cluster_data) 
+
+    # plot_clusters(num_clusters=num_clusters, 
+    #           feature_matrix=files_tfidf_features.toarray(),
+    #           cluster_data=cluster_data, 
+    #           clusters=clusters,
+    #           titles = titles,
+    #           plot_size=(16,8))  
+
+
+    # a = files_tfidf_features.toarray()
+    # pca = PCA(n_components=2).fit(a)
+    # pca_2d = pca.transform(a)
+
+    # for i in range(0, pca_2d.shape[0]):
+    #   if clusters.labels_[i] == 0:
+    #     c1 = plt.scatter(pca_2d[i,0], pca_2d[i,1],c='r', marker='+')
+    #   elif clusters.labels_[i] == 1:
+    #     c2 = plt.scatter(pca_2d[i,0],pca_2d[i,1],c='g',marker='o')
+    #   elif clusters.labels_[i] == -1:
+    #     c3 = plt.scatter(pca_2d[i,0],pca_2d[i,1],c='b',marker='*')
+    # plt.legend([c1,c2,c3], ['Cluster 1', 'Cluster 2', 'Noise'])
+    # plt.title('HDBSCAN finds 2 clusters and noise')
+    # plt.show()
 
 
