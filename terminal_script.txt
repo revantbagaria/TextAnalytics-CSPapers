@@ -1,0 +1,13 @@
+confs="HCW CIDR VEE NDSS FAST SYSTOR"
+for i in $confs
+do
+  for j in $confs
+  do
+    if [[ "$i" < "$j" ]]
+      then
+      	echo $i $j
+      	python main.py --similarity True --SummarySimilarities True --corpus_docs $(i)* --query_docs $(j)*
+
+      fi
+  done
+done

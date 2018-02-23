@@ -134,52 +134,52 @@ def clustering(files):
                                                         min_df=0.24, max_df=0.85)
     feature_names = files_tfidf_vectorizer.get_feature_names()
 
-    hdb_obj = hdbscan.HDBSCAN(min_cluster_size=6)
+    hdb_obj = hdbscan.HDBSCAN(min_cluster_size=2)
     clusters = hdb_obj.fit(files_tfidf_features)
     print(clusters.labels_)
 
-    dbscan = DBSCAN(min_samples=2, eps=0.3)
-    dbscan.fit(files_tfidf_features)
-    print(dbscan.labels_)
+    # dbscan = DBSCAN(min_samples=2, eps=0.3)
+    # dbscan.fit(files_tfidf_features)
+    # print(dbscan.labels_)
 
-    dbscan = DBSCAN(min_samples=2, eps=0.3)
-    dbscan.fit(files_tfidf_features)
-    print(dbscan.labels_)
+    # dbscan = DBSCAN(min_samples=2, eps=0.3)
+    # dbscan.fit(files_tfidf_features)
+    # print(dbscan.labels_)
 
-    dbscan = DBSCAN(min_samples=2, eps=0.3)
-    dbscan.fit(files_tfidf_features)
-    print(dbscan.labels_)
+    # dbscan = DBSCAN(min_samples=2, eps=0.3)
+    # dbscan.fit(files_tfidf_features)
+    # print(dbscan.labels_)
 
-    dbscan = DBSCAN(min_samples=2, eps=0.3)
-    dbscan.fit(files_tfidf_features)
-    print(dbscan.labels_)
+    # dbscan = DBSCAN(min_samples=2, eps=0.3)
+    # dbscan.fit(files_tfidf_features)
+    # print(dbscan.labels_)
 
-    db = DBSCAN(eps=0.3, min_samples=2).fit(files_tfidf_features)
-    labels = db.labels_
-    print(labels)
+    # db = DBSCAN(eps=0.3, min_samples=2).fit(files_tfidf_features)
+    # labels = db.labels_
+    # print(labels)
 
     # num_clusters = 3
-    # # km_obj, clusters = k_means(files_tfidf_features, num_clusters)
+    # km_obj, clusters = k_means(files_tfidf_features, num_clusters)
     # # ap_obj, clusters = affinity_propagation(feature_matrix=files_tfidf_features)
 
     # c = Counter(clusters)
     # total_clusters = len(c)
-    # clusters_dict = defaultdict(lambda: [])
+    clusters_dict = defaultdict(lambda: [])
 
-    # titles = []
+    titles = []
 
-    # for each in files_extended:
-    #   index = each.rfind('/')
-    #   titles.append(each[index+1:])
+    for each in files_extended:
+      index = each.rfind('/')
+      titles.append(each[index+1:])
 
-    # for index, each in enumerate(clusters.labels_):
-    #     clusters_dict[each].append(titles[index])
+    for index, each in enumerate(clusters.labels_):
+        clusters_dict[each].append(titles[index])
 
-    # # # cluster_data =  get_cluster_data(clustering_obj=km_obj,
-    # # #                              clusters_dict=clusters_dict,
-    # # #                              feature_names=feature_names,
-    # # #                              num_clusters=num_clusters,
-    # # #                              topn_features=5)      
+    # cluster_data =  get_cluster_data(clustering_obj=km_obj,
+    #                              clusters_dict=clusters_dict,
+    #                              feature_names=feature_names,
+    #                              num_clusters=num_clusters,
+    #                              topn_features=5)      
 
     # # # # cluster_data =  get_cluster_data(clustering_obj=ap_obj,
     # # # #                              clusters_dict=clusters_dict,
@@ -203,19 +203,19 @@ def clustering(files):
     #           plot_size=(16,8))  
 
 
-    # a = files_tfidf_features.toarray()
-    # pca = PCA(n_components=2).fit(a)
-    # pca_2d = pca.transform(a)
+    a = files_tfidf_features.toarray()
+    pca = PCA(n_components=2).fit(a)
+    pca_2d = pca.transform(a)
 
-    # for i in range(0, pca_2d.shape[0]):
-    #   if clusters.labels_[i] == 0:
-    #     c1 = plt.scatter(pca_2d[i,0], pca_2d[i,1],c='r', marker='+')
-    #   elif clusters.labels_[i] == 1:
-    #     c2 = plt.scatter(pca_2d[i,0],pca_2d[i,1],c='g',marker='o')
-    #   elif clusters.labels_[i] == -1:
-    #     c3 = plt.scatter(pca_2d[i,0],pca_2d[i,1],c='b',marker='*')
-    # plt.legend([c1,c2,c3], ['Cluster 1', 'Cluster 2', 'Noise'])
-    # plt.title('HDBSCAN finds 2 clusters and noise')
-    # plt.show()
+    for i in range(0, pca_2d.shape[0]):
+      if clusters.labels_[i] == 0:
+        c1 = plt.scatter(pca_2d[i,0], pca_2d[i,1],c='r', marker='+')
+      elif clusters.labels_[i] == 1:
+        c2 = plt.scatter(pca_2d[i,0],pca_2d[i,1],c='g',marker='o')
+      elif clusters.labels_[i] == -1:
+        c3 = plt.scatter(pca_2d[i,0],pca_2d[i,1],c='b',marker='*')
+    plt.legend([c1,c2,c3], ['Cluster 1', 'Cluster 2', 'Noise'])
+    plt.title('HDBSCAN finds 2 clusters and noise')
+    plt.show()
 
 

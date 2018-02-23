@@ -9,11 +9,15 @@ def compute_cosine_similarity(doc_features, corpus_features):
 
 
 def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
+	
+	query_tfidf_features = query_tfidf_features.toarray()
 	result = []
 
-	for index, doc in enumerate(query_tfidf_features):
-		doc_tfidf = query_tfidf_features[index]
+	for index, doc_tfidf in enumerate(query_tfidf_features):
 		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
+
+		# print("printing 'similarities'")
+		# print(similarities)
 
 		indices = [i+1 for i in range(len(similarities))]
 		res = zip(similarities, indices)
@@ -23,9 +27,10 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
 				del res[i]
 				break
 
+		# print index, similarities
 		res.sort(reverse=True)
 		
-		print("The top 3 most similar documents for Query Doc no " + str(index) + ":")
+		print("The top 3 most similar documents for Query Doc no " + str(index+1) + ":")
 
 		for i in range(3):
 			print("Corpus doc no " + str(res[i][1]) + ": " + str(res[i][0]))
