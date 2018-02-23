@@ -7,6 +7,10 @@ def compute_cosine_similarity(doc_features, corpus_features):
 	indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
 	return similarity, indices_returned
 
+# def findInterConfMatrix(query_tfidf_features, corpus_tfidf_features):
+# 	query_tfidf_features = query_tfidf_features.toarray()
+
+
 
 def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
 	
@@ -16,8 +20,8 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features):
 	for index, doc_tfidf in enumerate(query_tfidf_features):
 		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
 
-		# print("printing 'similarities'")
-		# print(similarities)
+		print("printing 'similarities'")
+		print(similarities)
 
 		indices = [i+1 for i in range(len(similarities))]
 		res = zip(similarities, indices)
@@ -60,6 +64,8 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features):
 	print("Min: %f, %s" % (np.min(result), index_min,))
 	print("Standard Deviation: %f" %np.std(result))
 
+	print(result)
+
 
 def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, SummarySimilarities):
 
@@ -74,12 +80,14 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 		exit(1)
 
 	corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
+	# print("corpus docs extended: ", corpus_docs_extended)
 	norm_corpus = generate_text_list.generate_text_list(corpus_docs_extended)
 	corpus_tfidf_vectorizer, corpus_tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
 														feature_type='tfidf',
 														ngram_range=(1, 1), 
 														min_df=0.0, max_df=1.0)
 	query_docs_extended = findThePapers.findThePapers(query_docs)
+	# print("query_docs_extended: ", query_docs_extended)
 	norm_query = generate_text_list.generate_text_list(query_docs_extended)
 	query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)
 
