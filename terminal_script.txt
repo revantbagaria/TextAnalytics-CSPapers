@@ -11,3 +11,14 @@ do
       fi
   done
 done
+
+
+
+When the corpus docs and the query docs are exactly the same (FOR INTRA CONF) and we are computing similarities:
+"python2 main.py -s True -ss True -cd HCW* -qd HCW*"
+
+When the corpus docs and the query docs are exactly the same (FOR INTER CONF) and we are computing similarities:
+"python2 main.py -s True -ss True -cda HCW* -cda VEE* -cda CIDR* -qda HCW* -qda VEE* -qda CIDR*"
+
+When the corpus docs and the query docs are not exactly the same and we are computing similarity:
+"python2 main.py -s True -cda HCW* -cda VEE* -qd --CIDR_17_001"
