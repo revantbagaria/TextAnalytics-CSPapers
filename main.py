@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 import matplotlib.pyplot as plt
 
-def main(wordcloud, wordcloud_combfiles, wordcloud_indfiles, similarity, corpus_docs, query_docs, corpus_docs_append, query_docs_append, SummarySimilarities, clustering, cluster_files, classification, classification_files, classification_labels):
+def main(wordcloud, wordcloud_combfiles, wordcloud_indfiles, similarity, corpus_docs, query_docs, corpus_docs_append, query_docs_append, same, clustering, cluster_files, classification, classification_files, classification_labels):
 
 	globalVariables.init()
 
@@ -11,7 +11,7 @@ def main(wordcloud, wordcloud_combfiles, wordcloud_indfiles, similarity, corpus_
 		generate_wordcloud.generate_wordcloud(wordcloud_combfiles, wordcloud_indfiles)
 
 	if similarity:
-		generate_similarity.generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, SummarySimilarities)
+		generate_similarity.generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, same)
 
 	if clustering:
 		generate_cluster.clustering(cluster_files)
@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	parser.add_argument('-qda', '--query_docs_append', nargs = '+', default = None, action = 'append')
 	parser.add_argument('-cd', '--corpus_docs', nargs = '+', default = None)
 	parser.add_argument('-qd', '--query_docs', nargs = '+', default = None)
-	parser.add_argument('-ss', '--SummarySimilarities', default = False)
+	parser.add_argument('-same', '--same', default = False)
 	parser.add_argument('-cl', '--clustering', default = False)
 	parser.add_argument('-clf', '--cluster_files', nargs = '+', default = None)
 	parser.add_argument('-cf', '--classification', nargs = '+', default = None)
@@ -40,4 +40,4 @@ if __name__ == '__main__':
 	parser.add_argument('-cfl', '--classification_labels', nargs = '+', default = None)
 	args = parser.parse_args()
 
-	main(args.wordcloud, args.wordcloud_combfiles, args.wordcloud_indfiles, args.similarity, args.corpus_docs, args.query_docs, args.corpus_docs_append, args.query_docs_append, args.SummarySimilarities, args.clustering, args.cluster_files, args.classification, args.classification_files, args.classification_labels)
+	main(args.wordcloud, args.wordcloud_combfiles, args.wordcloud_indfiles, args.similarity, args.corpus_docs, args.query_docs, args.corpus_docs_append, args.query_docs_append, args.same, args.clustering, args.cluster_files, args.classification, args.classification_files, args.classification_labels)
