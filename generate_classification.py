@@ -1,4 +1,3 @@
-import numpy as np, json
 from sklearn.cross_validation import train_test_split
 import findThePapers, generate_text_list, feature_extractor
 from feature_extractor import bow_extractor, tfidf_extractor
@@ -6,11 +5,50 @@ from feature_extractor import averaged_word_vectorizer
 from feature_extractor import tfidf_weighted_averaged_word_vectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import SGDClassifier
-import nltk, gensim
+import nltk, gensim, re, json
 from sklearn import metrics
+import pandas as pd
+import numpy as np
 
 d1 = {"Architecture": 0, "Benchmark": 1, "Cloud": 2, "Compilers": 3, "Concurrency": 4, "Data": 5, "DB": 6, "Energy": 7, "GPGPU": 8, "HPC": 9, "Network": 10, "OS": 11, "Security": 12, "Storage": 13, "VM": 14}
 d2 = {0: "Architecture", 1: "Benchmark", 2: "Cloud", 3: "Compilers", 4: "Concurrency", 5: "Data", 6: "DB", 7: "Energy", 8: "GPGPU", 9: "HPC", 10: "Network", 11: "OS", 12: "Security", 13: "Storage", 14: "VM"}
+
+
+def get_metrics(true_labels, predicted_labels):
+    
+    print 'Accuracy:', np.round(
+                        metrics.accuracy_score(true_labels, 
+                                               predicted_labels),
+                        2)
+    print 'Precision:', np.round(
+                        metrics.precision_score(true_labels, 
+                                               predicted_labels,
+                                               average='weighted'),
+                        2)
+    print 'Recall:', np.round(
+                        metrics.recall_score(true_labels, 
+                                               predicted_labels,
+                                               average='weighted'),
+                        2)
+    print 'F1 Score:', np.round(
+                        metrics.f1_score(true_labels, 
+                                               predicted_labels,
+                                               average='weighted'),
+                        2)
+                        
+
+def train_predict_evaluate_model(classifier, 
+                                 train_features, train_labels, 
+                                 test_features, test_labels):
+    # build model    
+    classifier.fit(train_features, train_labels)
+    # predict using model
+    predictions = classifier.predict(test_features) 
+    # evaluate model prediction performance   
+    get_metrics(true_labels=test_labels, 
+                predicted_labels=predictions)
+    return predictions  
+
 
 def prepare_datasets(corpus, labels, test_data_proportion=0.3):
     train_X, test_X, train_Y, test_Y = train_test_split(corpus, labels, 
@@ -107,3 +145,54 @@ def generate_classification(classification_files, classification_labels):
 
 	mnb = MultinomialNB()
 	svm = SGDClassifier(loss='hinge', n_iter=100)
+
+	# Multinomial Naive Bayes with bag of words features
+	mnb_bow_predictions = train_predict_evaluate_model(classifier=mnb,
+	                                           train_features=bow_train_features,
+	                                           train_labels=train_labels,
+	                                           test_features=bow_test_features,
+	                                           test_labels=test_labels)
+
+	# Support Vector Machine with bag of words features
+	svm_bow_predictions = train_predict_evaluate_model(classifier=svm,
+	                                           train_features=bow_train_features,
+	                                           train_labels=train_labels,
+	                                           test_features=bow_test_features,
+	                                           test_labels=test_labels)
+	                                           
+	# Multinomial Naive Bayes with tfidf features                                           
+	mnb_tfidf_predictions = train_predict_evaluate_model(classifier=mnb,
+	                                           train_features=tfidf_train_features,
+	                                           train_labels=train_labels,
+	                                           test_features=tfidf_test_features,
+	                                           test_labels=test_labels)
+
+	# Support Vector Machine with tfidf features
+	svm_tfidf_predictions = train_predict_evaluate_model(classifier=svm,
+	                                           train_features=tfidf_train_features,
+	                                           train_labels=train_labels,
+	                                           test_features=tfidf_test_features,
+	                                           test_labels=test_labels)
+
+	# Support Vector Machine with averaged word vector features
+	svm_avgwv_predictions = train_predict_evaluate_model(classifier=svm,
+	                                           train_features=avg_wv_train_features,
+	                                           train_labels=train_labels,
+	                                           test_features=avg_wv_test_features,
+	                                           test_labels=test_labels)
+
+	# Support Vector Machine with tfidf weighted averaged word vector features
+	svm_tfidfwv_predictions = train_predict_evaluate_model(classifier=svm,
+	                                           train_features=tfidf_wv_train_features,
+	                                           train_labels=train_labels,
+	                                           test_features=tfidf_wv_test_features,
+	                                           test_labels=test_labels)
+
+	 
+	cm = metrics.confusion_matrix(test_labels, svm_tfidf_predictions)
+	pd.DataFrame(cm, index=range(0,20), columns=range(0,20))  
+
+	# class_names = dataset.target_names
+	# print class_names[0], '->', class_names[15]
+	# print class_names[18], '->', class_names[16]  
+	# print class_names[19], '->', class_names[15] 
