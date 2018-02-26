@@ -1,6 +1,7 @@
 import numpy as np
 import findThePapers, generate_text_list, feature_extractor
 from generate_titles import generate_titles
+from display_features import display_features
 
 def compute_cosine_similarity(doc_features, corpus_features):
 	indices_returned = []
@@ -49,7 +50,7 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features):
 		doc_tfidf = query_tfidf_features[index]
 
 		similarities, indices_returned = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features[(index+1):])
-		matrix.append(np.array([""*count]) + similarities)
+		matrix.append(np.array([""]*count + list(similarities)))
 		count += 1
 
 		for i in range(len(indices_returned)):
@@ -66,8 +67,9 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features):
 	print("Min: %f, %s" % (np.min(result), index_min,))
 	print("Standard Deviation: %f" %np.std(result))
 
-	print(result)
-	print(matrix)
+	# print(result)
+	# print(matrix)
+	return matrix
 
 
 def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, SummarySimilarities):
@@ -84,8 +86,8 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 
 	corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
 	# print("corpus docs extended: ", corpus_docs_extended)
-	titles = generate_titles(corpus_docs_extended)
-	print(titles)
+	titles_corpus = generate_titles(corpus_docs_extended)
+	print(titles_corpus)
 	norm_corpus = generate_text_list.generate_text_list(corpus_docs_extended)
 	corpus_tfidf_vectorizer, corpus_tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
 														feature_type='tfidf',
@@ -93,8 +95,8 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 														min_df=0.0, max_df=1.0)
 	query_docs_extended = findThePapers.findThePapers(query_docs)
 	# print("query_docs_extended: ", query_docs_extended)
-	titles = generate_titles(query_docs_extended)
-	print(titles)
+	titles_query = generate_titles(query_docs_extended)
+	print(titles_query)
 	norm_query = generate_text_list.generate_text_list(query_docs_extended)
 	query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)
 
@@ -102,7 +104,8 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 	print '='*60
 
 	if SummarySimilarities:
-		findSummarySimilarities(query_tfidf_features, corpus_tfidf_features)
+		matrix = findSummarySimilarities(query_tfidf_features, corpus_tfidf_features)
+		display_features(matrix, titles_corpus, titles_query)
 	else:
 		findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features)
 
