@@ -54,7 +54,8 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_
 
 		for i in range(len(indices_returned)):
 			value = indices_returned[i] + index
-			indices.append((index+1, value+1))
+			indices.append((titles_corpus[index], titles_corpus[value]))
+			# indices.append((index+1, value+1))
 
 		result.extend(similarities)
 
