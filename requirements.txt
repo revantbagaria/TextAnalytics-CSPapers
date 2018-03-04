@@ -27,3 +27,5 @@ urllib3==1.22
 wordcloud==1.3.1
 npyscreen
 hdbscan
+future
+scikit-multilearn
