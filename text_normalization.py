@@ -6,7 +6,7 @@ from nltk.corpus import wordnet as wn
 
 
 def tokenize_text(text):
-	text = text.lower()
+	text = text.lower() #important step remember we are converting everything to lower case
 	tokens = nltk.word_tokenize(text)
 	tokens = [token.strip() for token in tokens]
 	return tokens

@@ -172,6 +172,10 @@ def dbscan_clustering(feature_matrix, titles, min_samples=2, eps=0.3):
     for index, each in enumerate(clusters):
         clusters_dict[each].append(titles[index])
 
+    for each in clusters_dict.keys():
+        print("Cluster {}: ".format(each))
+        print(clusters_dict[each])
+
 
 def hdbscan_clustering(feature_matrix, titles, min_cluster_size=2):
     hdb_obj = hdbscan.HDBSCAN(min_cluster_size)
@@ -183,6 +187,10 @@ def hdbscan_clustering(feature_matrix, titles, min_cluster_size=2):
 
     for index, each in enumerate(clusters):
         clusters_dict[each].append(titles[index])
+
+    for each in clusters_dict.keys():
+        print("Cluster {}: ".format(each))
+        print(clusters_dict[each])
 
     # cluster_data =  get_cluster_data(clustering_obj=hdb_obj,
     #                              clusters_dict=clusters_dict,
