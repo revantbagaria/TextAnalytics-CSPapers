@@ -1,13 +1,16 @@
 import glob
+from os.path import expanduser
 
 def findCompletePath(filename):
 	result = []
 	if filename[-1] == '*':
-			path = '~/Desktop/ThesisCSpapers/' + str(filename) + '.cermxml'
+			home = expanduser("~")
+			path = home + '/Desktop/ThesisCSpapers/' + str(filename) + '.cermxml'
 			for name in glob.glob(path):
 				result.append(name)
 	else:
-		result.append('~/Desktop/ThesisCSpapers/' + str(filename) + '.cermxml')
+		home = expanduser("~")
+		result.append(home + '/Desktop/ThesisCSpapers/' + str(filename) + '.cermxml')
 	return result
 
 def findThePapers(files):
