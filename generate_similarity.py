@@ -2,6 +2,40 @@ import numpy as np
 import findThePapers, generate_text_list, feature_extractor
 from generate_titles import generate_titles
 from display_features import display_features
+import csv
+
+def tfidf_stats(query_tfidf_features, titles_query):
+
+	query_tfidf_features = query_tfidf_features.toarray()
+	filename = 'CIDR_VEE_HCW_combined.csv'
+	with open(filename, 'w') as csvfile:
+		csvwriter = csv.writer(csvfile)
+		csvwriter.writerow(["Names"]+titles_query)
+		
+		mean = []
+		for i, each in enumerate(query_tfidf_features):
+			print(mean.append(np.ndarray.mean(query_tfidf_features[i])))
+
+		csvwriter.writerow(["Means"]+mean)
+
+		minimum = []
+		for i, each in enumerate(query_tfidf_features):
+			print(minimum.append(np.ndarray.min(query_tfidf_features[i])))
+
+		csvwriter.writerow(["Minimum"]+minimum)
+
+		maximum = []
+		for i, each in enumerate(query_tfidf_features):
+			print(maximum.append(np.ndarray.max(query_tfidf_features[i])))
+
+		csvwriter.writerow(["Maximum"]+maximum)
+
+		std = []
+		for i, each in enumerate(query_tfidf_features):
+			print(std.append(np.ndarray.std(query_tfidf_features[i])))
+
+		csvwriter.writerow(["Std"]+std)
+
 
 def compute_cosine_similarity(doc_features, corpus_features):
 	indices_returned = []
@@ -93,6 +127,8 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 	titles_query = generate_titles(query_docs_extended)
 	norm_query = generate_text_list.generate_text_list(query_docs_extended)
 	query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)
+
+	# tfidf_stats(query_tfidf_features, titles_query)
 
 	print 'Document Similarity Analysis using Cosine Similarity'
 	print '='*60
