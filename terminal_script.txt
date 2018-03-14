@@ -6,7 +6,7 @@ do
     if [[ "$i" < "$j" ]]
       then
       	echo $i $j
-      	python main.py --similarity True --SummarySimilarities True --corpus_docs $(i)* --query_docs $(j)*
+      	python2 main.py --similarity True --SummarySimilarities True --corpus_docs $(i)* --query_docs $(j)*
 
       fi
   done
@@ -22,3 +22,10 @@ When the corpus docs and the query docs are exactly the same (FOR INTER CONF) an
 
 When the corpus docs and the query docs are not exactly the same and we are computing similarity:
 "python2 main.py -s True -cda HCW* -cda VEE* -qd --CIDR_17_001"
+
+
+confs = "HCW CIDR"
+for i in $confs
+do
+  echo $i*
+done

@@ -43,7 +43,7 @@ def compute_cosine_similarity(doc_features, corpus_features):
 	indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
 	return similarity, indices_returned
 
-def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query):
+def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
 	
 	query_tfidf_features = query_tfidf_features.toarray()
 	result, matrix = [], []
@@ -73,12 +73,18 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titl
 
 
 
-def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query):
+def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
 	
 	query_tfidf_features = query_tfidf_features.toarray()
 	result, indices = [], []
 	matrix = []
 	count = 1
+
+	f = open("intraconf_similarity_stats.txt","a+")
+
+	f.write("Similarity Statistics for {}:\n".format(name))
+	f.write("No of papers: %d\n" % len(titles_corpus))
+
 	for index in range(len(query_tfidf_features)):
 		doc_tfidf = query_tfidf_features[index]
 
@@ -89,22 +95,23 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_
 		for i in range(len(indices_returned)):
 			value = indices_returned[i] + index
 			indices.append((titles_corpus[index], titles_corpus[value]))
-			# indices.append((index+1, value+1))
 
 		result.extend(similarities)
 
 	index_max = indices[np.argmax(result)]
 	index_min = indices[np.argmin(result)]
 
-	print("Mean: %f" %np.mean(result))
-	print("Max: %f, %s" % (np.max(result), index_max,))
-	print("Min: %f, %s" % (np.min(result), index_min,))
-	print("Standard Deviation: %f" %np.std(result))
+	f.write("Mean: %f \n" %np.mean(result))
+	f.write("Max: %f, %s \n" % (np.max(result), index_max,))
+	f.write("Min: %f, %s \n" % (np.min(result), index_min,))
+	f.write("Standard Deviation: %f \n" %np.std(result))
+	f.write("\n")
 
-	display_features(matrix, titles_corpus, titles_query)
+	# display_features(matrix, titles_corpus, titles_query)
+	f.close()
 
 
-def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, same):
+def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, same, name=None):
 
 	if not corpus_docs:
 		corpus_docs = corpus_docs_append
@@ -134,8 +141,8 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 	print '='*60
 
 	if same:
-		findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query)
+		findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
 	else:
-		findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query)
+		findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
 
 

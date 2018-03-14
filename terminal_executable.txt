@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in ASPLOS
+do
+  python2 main.py -s True -qd ${i}* -cd ${i}* -name $i -same True
+done
