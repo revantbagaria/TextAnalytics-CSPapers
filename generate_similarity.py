@@ -80,10 +80,10 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_
 	matrix = []
 	count = 1
 
-	f = open("intraconf_similarity_stats.txt","a+")
+	# f = open("intraconf_similarity_stats.txt","a+")
 
-	f.write("Similarity Statistics for {}:\n".format(name))
-	f.write("No of papers: %d\n" % len(titles_corpus))
+	# f.write("Similarity Statistics for {}:\n".format(name))
+	# f.write("No of papers: %d\n" % len(titles_corpus))
 
 	for index in range(len(query_tfidf_features)):
 		doc_tfidf = query_tfidf_features[index]
@@ -101,14 +101,14 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_
 	index_max = indices[np.argmax(result)]
 	index_min = indices[np.argmin(result)]
 
-	f.write("Mean: %f \n" %np.mean(result))
-	f.write("Max: %f, %s \n" % (np.max(result), index_max,))
-	f.write("Min: %f, %s \n" % (np.min(result), index_min,))
-	f.write("Standard Deviation: %f \n" %np.std(result))
-	f.write("\n")
+	# f.write("Mean: %f \n" %np.mean(result))
+	# f.write("Max: %f, %s \n" % (np.max(result), index_max,))
+	# f.write("Min: %f, %s \n" % (np.min(result), index_min,))
+	# f.write("Standard Deviation: %f \n" %np.std(result))
+	# f.write("\n")
 
-	# display_features(matrix, titles_corpus, titles_query)
-	f.close()
+	display_features(matrix, titles_corpus, titles_query)
+	# f.close()
 
 
 def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, same, name=None):
