@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in ASPLOS
+for i in ASPLOS ATC CCGRID CCS CIDR CoNEXT EuroPar EuroSys FAST HCW HotCloud HotI HotOS HotStorage HPCA HPDC ICAC ICPE IMC ISC ISCA ISPASS KDD MASCOTS MICRO Middleware MobiCom NDSS NSDI PACT PLDI PODC PODS PPoPP SC SIGCOMM SIGIR SIGMETRICS SIGMOD SLE SOCC SOSP SP SPAA SYSTOR VEE
 do
   python2 main.py -s True -qd ${i}* -cd ${i}* -name $i -same True
 done
