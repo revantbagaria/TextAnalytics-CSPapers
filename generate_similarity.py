@@ -50,7 +50,6 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titl
 
 	for index, doc_tfidf in enumerate(query_tfidf_features):
 		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
-
 		matrix.append(similarities)
 
 		indices = [i for i in range(len(similarities))]
