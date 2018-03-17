@@ -52,21 +52,21 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titl
 		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
 		matrix.append(similarities)
 
-		indices = [i for i in range(len(similarities))]
-		res = zip(similarities, indices)
+		# indices = [i for i in range(len(similarities))]
+		# res = zip(similarities, indices)
 
-		for i, each in enumerate(res):
-			if abs(each[0]-1.00) <= 0.01:
-				del res[i]
-				break
+		# for i, each in enumerate(res):
+		# 	if abs(each[0]-1.00) <= 0.01:
+		# 		del res[i]
+		# 		break
 
-		# print index, similarities
-		res.sort(reverse=True)
+		# # print index, similarities
+		# res.sort(reverse=True)
 
-		print("The top 3 most similar documents for " + titles_query[index] + ":")
-		for i in range(3):
-			if i < len(res):
-				print(titles_corpus[res[i][1]] + ":" + str(res[i][0]))
+		# print("The top 3 most similar documents for " + titles_query[index] + ":")
+		# for i in range(3):
+		# 	if i < len(res):
+		# 		print(titles_corpus[res[i][1]] + ":" + str(res[i][0]))
 
 	display_features(matrix, titles_corpus, titles_query)
 
