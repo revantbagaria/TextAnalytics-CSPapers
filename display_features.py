@@ -2,28 +2,28 @@ import pandas as pd
 import csv
 
 
-def edit_csv_file(filename):
-	new_rows = [] # a holder for our modified rows when we make them
+# def edit_csv_file(filename):
+# 	new_rows = [] # a holder for our modified rows when we make them
 
-	with open(filename, 'rb') as f:
-	    reader = csv.reader(f) # pass the file to our csv reader
-	    for row in reader:
-	    	new_row = []
-	    	for each in row:
-	    		try:
-	    			float(each)
-	    			if abs(float(each) - 1.00) <= 0.01:
-	    				new_row.append("")
-	    			else:
-	    				new_row.append(each)
-	    		except ValueError:
-	    			new_row.append(each)
-	    	new_rows.append(new_row)
+# 	with open(filename, 'rb') as f:
+# 	    reader = csv.reader(f) # pass the file to our csv reader
+# 	    for row in reader:
+# 	    	new_row = []
+# 	    	for each in row:
+# 	    		try:
+# 	    			float(each)
+# 	    			if abs(float(each) - 1.00) <= 0.01:
+# 	    				new_row.append("")
+# 	    			else:
+# 	    				new_row.append(each)
+# 	    		except ValueError:
+# 	    			new_row.append(each)
+# 	    	new_rows.append(new_row)
 
-    with open(filename, 'wb') as f:
-	    # Overwrite the old file with the modified rows
-	    writer = csv.writer(f)
-	    writer.writerows(new_rows)
+#     with open(filename, 'wb') as f:
+# 	    # Overwrite the old file with the modified rows
+# 	    writer = csv.writer(f)
+# 	    writer.writerows(new_rows)
 
 
 def display_features(features, feature_names, index_names=None):
@@ -32,7 +32,7 @@ def display_features(features, feature_names, index_names=None):
     # print df
     filename = "similarity_matrix_individual.csv"
     df.to_csv(filename)
-    edit_csv_file(filename)
+    # edit_csv_file(filename)
 
 
 
