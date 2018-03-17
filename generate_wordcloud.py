@@ -37,7 +37,6 @@ def generate_wordcloud(wordcloud_combfiles, wordcloud_indfiles):
 		text_list = generate_text_list.generate_text_list(wordcloud_combfiles_extended)
 		for index, each in enumerate(text_list):
 			name_of_wordcloud = "wordcloud_" + titles[index] + ".png"
-			print(name_of_wordcloud)
 			wordcloud(each, name_of_wordcloud, True, False)
 
 	if wordcloud_indfiles:
@@ -46,5 +45,4 @@ def generate_wordcloud(wordcloud_combfiles, wordcloud_indfiles):
 		text_list = generate_text_list.generate_text_list(wordcloud_indfiles_extended)
 		for index, each in enumerate(text_list):
 			name_of_wordcloud = "wordcloud_" + titles[index] + ".png"
-			print(name_of_wordcloud)
 			wordcloud(each, name_of_wordcloud, False, True)
