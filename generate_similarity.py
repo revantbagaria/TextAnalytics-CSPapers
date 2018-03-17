@@ -110,6 +110,22 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_
 	f.close()
 
 
+# def delete_empty_ones(corpus_docs_extended):
+
+# 	empty_files = ["CCGRID_17_012", "ISPASS_17_007", "Middleware_17_019", "NSDI_17_009", "NSDI_17_037", "NSDI_17_034", "NSDI_17_040", "NSDI_17_042", "NSDI_17_036", "NSDI_17_038", "NSDI_17_035", "NSDI_17_032", "NSDI_17_039", "NSDI_17_041", "NSDI_17_030", "NSDI_17_031", "NSDI_17_024", "NSDI_17_033", "ICPE_17_022"]
+
+# 	for i, each1 in enumerate(corpus_docs_extended):
+# 		if isinstance(each1, list):
+# 			for j, each2 in enumerate(each1):
+# 				if each2 in empty_files:
+# 					del each1[j]
+# 		else:
+# 			if each1 in empty_files:
+# 				del corpus_docs_extended[i]
+
+# 	return corpus_docs_extended
+
+
 def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, same, name=None):
 
 	if not corpus_docs:
@@ -123,6 +139,7 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 		exit(1)
 
 	corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
+	# corpus_docs_extended = delete_empty_ones(corpus_docs_extended)
 	titles_corpus = generate_titles(corpus_docs_extended)
 	norm_corpus = generate_text_list.generate_text_list(corpus_docs_extended)
 	corpus_tfidf_vectorizer, corpus_tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
@@ -130,6 +147,7 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 														ngram_range=(1, 1), 
 														min_df=0.0, max_df=1.0)
 	query_docs_extended = findThePapers.findThePapers(query_docs)
+	# query_docs_extended = delete_empty_ones(query_docs_extended)
 	titles_query = generate_titles(query_docs_extended)
 	norm_query = generate_text_list.generate_text_list(query_docs_extended)
 	query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)

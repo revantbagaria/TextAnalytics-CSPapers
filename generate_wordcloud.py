@@ -27,7 +27,6 @@ def wordcloud(text, name_of_wordcloud, combined, individual):
 
 	plt.savefig(path)
 
-	# plt.savefig('/Users/Revant/Desktop/ThesisFiles/WordClouds/' + name_of_wordcloud)
 
 def generate_wordcloud(wordcloud_combfiles, wordcloud_indfiles):
 
