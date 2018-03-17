@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import globalVariables, findThePapers, generate_text_list

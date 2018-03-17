@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 import text_normalization, generate_similarity, generate_classification, extract_from_xml, generate_wordcloud, feature_extractor, globalVariables, generate_cluster
 import numpy as np
 import argparse

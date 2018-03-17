@@ -56,7 +56,7 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titl
 		res = zip(similarities, indices)
 
 		for i, each in enumerate(res):
-			if abs(each[0]-1.00) <= 0.02:
+			if abs(each[0]-1.00) <= 0.01:
 				del res[i]
 				break
 
