@@ -9,6 +9,10 @@ from os.path import expanduser
 
 
 def wordcloud(text, name_of_wordcloud, combined, individual):
+	if not text:
+		print("Error: {} is empty!!".format(name_of_wordcloud))
+		return
+
 	plt.figure(globalVariables.countGraphs)
 	globalVariables.countGraphs += 1
 	wordcloud = WordCloud().generate(text)
@@ -37,7 +41,7 @@ def generate_wordcloud(wordcloud_combfiles, wordcloud_indfiles):
 		text_list = generate_text_list.generate_text_list(wordcloud_combfiles_extended)
 		for index, each in enumerate(text_list):
 			name_of_wordcloud = "wordcloud_" + titles[index] + ".png"
-			print(name_of_wordcloud)
+			# print(name_of_wordcloud)
 			wordcloud(each, name_of_wordcloud, True, False)
 
 	if wordcloud_indfiles:
@@ -46,5 +50,5 @@ def generate_wordcloud(wordcloud_combfiles, wordcloud_indfiles):
 		text_list = generate_text_list.generate_text_list(wordcloud_indfiles_extended)
 		for index, each in enumerate(text_list):
 			name_of_wordcloud = "wordcloud_" + titles[index] + ".png"
-			print(name_of_wordcloud)
+			# print(name_of_wordcloud)
 			wordcloud(each, name_of_wordcloud, False, True)

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python2 main.py -w True -wi CCS_* CIDR_* CoNEXT_* EuroPar_* EuroSys_* FAST_* HCW_* HotCloud_* HotI_* HotOS_* HotStorage_* HPCA_* HPDC_* ICAC_* ICPE_* IMC_* ISC_* ISCA_* ISPASS_* KDD_* MASCOTS_* MICRO_* Middleware_* MobiCom_* NDSS_* NSDI_* PACT_* PLDI_* PODC_* PODS_* PPoPP_* SC_* SIGCOMM_* SIGIR_* SIGMETRICS_* SIGMOD_* SLE_* SOCC_* SOSP_* SP_* SPAA_* SYSTOR_* VEE_*
+python2 main.py -w True -wi CCGRID_* CCS_* CIDR_* CoNEXT_* EuroPar_* EuroSys_* FAST_* HCW_* HotCloud_* HotI_* HotOS_* HotStorage_* HPCA_* HPDC_* ICAC_* ICPE_* IMC_* ISC_* ISCA_* ISPASS_* KDD_* MASCOTS_* MICRO_* Middleware_* MobiCom_* NDSS_* NSDI_* PACT_* PLDI_* PODC_* PODS_* PPoPP_* SC_* SIGCOMM_* SIGIR_* SIGMETRICS_* SIGMOD_* SLE_* SOCC_* SOSP_* SP_* SPAA_* SYSTOR_* VEE_*
