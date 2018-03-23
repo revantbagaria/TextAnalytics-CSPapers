@@ -29,6 +29,6 @@ def display_features(features, feature_names, index_names=None):
     df = pd.DataFrame(data=features, index=index_names,
                       columns=feature_names)
     # print df
-    filename = "similarity_matrix_individual.csv"
+    filename = "similarity_matrix_combined_half.csv"
     df.to_csv(filename)
     edit_csv_file(filename)
