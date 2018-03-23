@@ -2,6 +2,7 @@ import numpy as np
 import findThePapers, generate_text_list, feature_extractor
 from generate_titles import generate_titles
 from display_features import display_features
+import matplotlib.pyplot as plt
 import csv
 
 def tfidf_stats(query_tfidf_features, titles_query):
