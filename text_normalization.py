@@ -58,6 +58,9 @@ def remove_special_characters(tokens):
 	filtered_tokens = filter(None, [pattern.sub('', token) for token in tokens])
 	return filtered_tokens
 
+# def mapping(text):
+	
+
 def process_text(text):
 	text = remove_numbers(text)
 	text = expandContractions(text)
