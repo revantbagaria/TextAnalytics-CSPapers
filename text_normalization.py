@@ -6,10 +6,13 @@ from nltk.corpus import wordnet as wn
 
 
 def tokenize_text(text):
-	text = text.lower() #important step remember we are converting everything to lower case
 	tokens = nltk.word_tokenize(text)
 	tokens = [token.strip() for token in tokens]
 	return tokens
+
+def lower_case(text):
+	text = text.lower()
+	return text
 
 def expandContractions(text):
     def replace(match):
@@ -65,6 +68,7 @@ def process_text(text):
 	text = remove_numbers(text)
 	text = expandContractions(text)
 	text = lemmatize_text(text)
+	text = lower_case(text)
 	text = tokenize_text(text)
 	text = remove_stopwords(text)
 	text = remove_customized_strings(text)

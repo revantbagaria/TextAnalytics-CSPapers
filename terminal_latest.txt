@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for i in /Users/Revant/Desktop/ThesisCSpapers/*.cermxml
+do
+  for j in /Users/Revant/Desktop/ThesisCSpapers/*.cermxml
+    do 
+      if [[ "$i" < "$j" ]]
+        then
+          python2 main.py -s True -cd $i -qd $j
+      fi
+    done
+done

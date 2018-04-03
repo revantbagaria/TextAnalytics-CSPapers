@@ -14,18 +14,44 @@ done
 
 
 
-When the corpus docs and the query docs are exactly the same (FOR INTRA CONF) and we are computing similarities:
-"python2 main.py -s True -ss True -cd HCW* -qd HCW*"
-
-When the corpus docs and the query docs are exactly the same (FOR INTER CONF) and we are computing similarities:
-"python2 main.py -s True -ss True -cda HCW* -cda VEE* -cda CIDR* -qda HCW* -qda VEE* -qda CIDR*"
-
-When the corpus docs and the query docs are not exactly the same and we are computing similarity:
-"python2 main.py -s True -cda HCW* -cda VEE* -qd --CIDR_17_001"
 
 
-confs = "HCW CIDR"
-for i in $confs
+for i in *cermxml
 do
-  echo $i*
+  for j in *cermxml
+    $x = $(basename "$i" .cermxml)
+    $y = $(basename "$j" .cermxml)
+    do
+      if [[ "$x" < "$y" ]]
+        then
+        	echo $x $y
+        	python2 main.py -s True -qd $x -cd $y
+        fi
+    done
 done
+
+
+
+
+
+for i in *cermxml
+do
+  for j in CIDR_17_002.cermxml CIDR_17_005.cermxml CIDR_17_003.cermxml CIDR_17_001.cermxml
+  do
+    echo $i $j
+  done
+done
+
+
+
+
+for f in /Users/Revant/Desktop/ThesisCSpapers/*.cermxml
+do
+   echo $f
+done
+
+
+
+
+
+python2 main.py -s True -cd $i -qd $j

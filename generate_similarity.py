@@ -3,6 +3,7 @@ import findThePapers, generate_text_list, feature_extractor
 from generate_titles import generate_titles
 from display_features import display_features
 import csv
+import pandas as pd
 
 def tfidf_stats(query_tfidf_features, titles_query):
 
@@ -43,6 +44,30 @@ def compute_cosine_similarity(doc_features, corpus_features):
 	indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
 	return similarity, indices_returned
 
+def latest(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
+	
+	query_tfidf_features = query_tfidf_features.toarray()
+	result, matrix = [], []
+
+	for index, doc_tfidf in enumerate(query_tfidf_features):
+		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
+
+		indices = [i for i in range(len(similarities))]
+		res = zip(similarities, indices)
+
+		for i, each in enumerate(res):
+			if abs(each[0]-1.00) <= 0.01:
+				del res[i]
+				break
+
+		df = pd.read_csv('similarity_full.csv')
+		df = df.set_index('Names')
+		df.at[titles_query[index], titles_corpus[res[0][1]]] = res[0][0]
+		df.at[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
+		df.to_csv("similarity_full.csv")
+
+
+
 def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
 	
 	query_tfidf_features = query_tfidf_features.toarray()
@@ -52,23 +77,23 @@ def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titl
 		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
 		matrix.append(similarities)
 
-		# indices = [i for i in range(len(similarities))]
-		# res = zip(similarities, indices)
+		indices = [i for i in range(len(similarities))]
+		res = zip(similarities, indices)
 
-		# for i, each in enumerate(res):
-		# 	if abs(each[0]-1.00) <= 0.01:
-		# 		del res[i]
-		# 		break
+		for i, each in enumerate(res):
+			if abs(each[0]-1.00) <= 0.01:
+				del res[i]
+				break
 
-		# # print index, similarities
-		# res.sort(reverse=True)
+		# print index, similarities
+		res.sort(reverse=True)
 
-		# print("The top 3 most similar documents for " + titles_query[index] + ":")
-		# for i in range(3):
-		# 	if i < len(res):
-		# 		print(titles_corpus[res[i][1]] + ":" + str(res[i][0]))
+		print("The top 3 most similar documents for " + titles_query[index] + ":")
+		for i in range(3):
+			if i < len(res):
+				print(titles_corpus[res[i][1]] + ":" + str(res[i][0]))
 
-	display_features(matrix, titles_corpus, titles_query)
+	# display_features(matrix, titles_corpus, titles_query)
 
 
 
@@ -122,26 +147,30 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 		print("Please enter both, corpus_docs and query_docs.")
 		exit(1)
 
-	corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
+	# corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
+	corpus_docs_extended = corpus_docs
 	titles_corpus = generate_titles(corpus_docs_extended)
 	norm_corpus = generate_text_list.generate_text_list(corpus_docs_extended)
 	corpus_tfidf_vectorizer, corpus_tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
 														feature_type='tfidf',
 														ngram_range=(1, 1), 
 														min_df=0.0, max_df=1.0)
-	query_docs_extended = findThePapers.findThePapers(query_docs)
+	# query_docs_extended = findThePapers.findThePapers(query_docs)
+	query_docs_extended = query_docs
 	titles_query = generate_titles(query_docs_extended)
 	norm_query = generate_text_list.generate_text_list(query_docs_extended)
 	query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)
 
 	# tfidf_stats(query_tfidf_features, titles_query)
 
-	print 'Document Similarity Analysis using Cosine Similarity'
-	print '='*60
+	latest(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)	
 
-	if same:
-		findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
-	else:
-		findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
+	# print 'Document Similarity Analysis using Cosine Similarity'
+	# print '='*60
+
+	# if same:
+	# 	findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
+	# else:
+	# 	findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
 
 
