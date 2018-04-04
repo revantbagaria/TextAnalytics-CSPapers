@@ -4,7 +4,7 @@ import glob, csv
 titles = []
 row = []
 home = expanduser("~")
-path = home + '/Desktop/ThesisCSpapers/' + '*' + '.cermxml'
+path = home + '/Desktop/ThesisCSpapers/HotI_' + '*' + '.cermxml'
 
 for name in glob.glob(path):
 	index1 = name.rfind('/')
@@ -21,6 +21,11 @@ for name in glob.glob(path):
 	
 
 titles = ["Names"] + titles
+
+with open('similarity_half.csv', 'w') as f:
+	writer = csv.writer(f)
+	writer.writerow(titles)
+	writer.writerows(row)
 
 with open('similarity_full.csv', 'w') as f:
 	writer = csv.writer(f)
