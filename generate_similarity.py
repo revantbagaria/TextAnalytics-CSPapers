@@ -64,13 +64,13 @@ def latest(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_qu
 		# df = df.set_index('Names')
 		df.loc[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
 		# df.at[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
-		df.to_csv("similarity_half.csv")
+		df.to_csv("similarity_half.csv", mode='w')
 
 		df2 = pd.read_csv('similarity_full.csv', index_col='Names')
 		# df = df.set_index('Names')
 		df2.loc[titles_query[index], titles_corpus[res[0][1]]] = res[0][0]
 		df2.loc[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
-		df2.to_csv("similarity_full.csv")
+		df2.to_csv("similarity_full.csv", mode='w')
 
 
 def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
