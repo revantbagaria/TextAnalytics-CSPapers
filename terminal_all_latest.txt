@@ -2,9 +2,9 @@
 
 
 python2 current.py
-for i in /home/bagariar/Desktop/ThesisCSpapers/HotI*.cermxml
+for i in /home/bagariar/Desktop/ThesisCSpapers/HCW*.cermxml
 do
-  for j in /home/bagariar/Desktop/ThesisCSpapers/HotI*.cermxml
+  for j in /home/bagariar/Desktop/ThesisCSpapers/HCW*.cermxml
     do 
       if [[ "$i" < "$j" ]]
         then

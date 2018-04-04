@@ -4,7 +4,7 @@ import glob, csv
 titles = []
 row = []
 home = expanduser("~")
-path = home + '/Desktop/ThesisCSpapers/HotI_' + '*' + '.cermxml'
+path = home + '/Desktop/ThesisCSpapers/HCW' + '*' + '.cermxml'
 
 for name in glob.glob(path):
 	index1 = name.rfind('/')
