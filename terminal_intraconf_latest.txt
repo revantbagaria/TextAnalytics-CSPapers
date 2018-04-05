@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+for i in ASPLOS_* ATC_* CCGRID_* CCS_* CIDR_* CoNEXT_* EuroPar_* EuroSys_* FAST_* HCW_* HotCloud_* HotI_* HotOS_* HotStorage_* HPCA_* HPDC_* ICAC_* ICPE_* IMC_* ISC_* ISCA_* ISPASS_* KDD_* MASCOTS_* MICRO_* Middleware_* MobiCom_* NDSS_* PLDI_* PODC_* PODS_* PPoPP_* SC_* SIGCOMM_* SIGIR_* SIGMETRICS_* SIGMOD_* SLE_* SOCC_* SOSP_* SP_* SPAA_* SYSTOR_* VEE_*
+do 
+  python2 current_intraconf.py -conf $i
+  for j in /home/bagariar/Desktop/ThesisCSpapers/$i.cermxml
+    do
+      for k in /home/bagariar/Desktop/ThesisCSpapers/$i.cermxml
+      do
+        if [[ "$j" < "$k" ]]
+          then
+            python2 main.py -s True -intraconf_latest True -filename $i -cd $j $k -qd $k
+        fi
+      done
+    done
+done
+
+
+
+python2 current_pullout.py
+
+for i in ASPLOS.csv ATC.csv CCGRID.csv CCS.csv CIDR.csv CoNEXT.csv EuroPar.csv EuroSys.csv FAST.csv HCW.csv HotCloud.csv HotI.csv HotOS.csv HotStorage.csv HPCA.csv HPDC.csv ICAC.csv ICPE.csv IMC.csv ISC.csv ISCA.csv ISPASS.csv KDD.csv MASCOTS.csv MICRO.csv Middleware.csv MobiCom.csv NDSS.csv PLDI.csv PODC.csv PODS.csv PPoPP.csv SC.csv SIGCOMM.csv SIGIR.csv SIGMETRICS.csv SIGMOD.csv SLE.csv SOCC.csv SOSP.csv SP.csv SPAA.csv SYSTOR.csv VEE.csv
+do
+  python2 pullout_stats.py -f $i
+done
