@@ -2,15 +2,14 @@
 
 
 python2 current.py
+
 for i in /home/bagariar/Desktop/ThesisCSpapers/*.cermxml
 do
   for j in /home/bagariar/Desktop/ThesisCSpapers/*.cermxml
     do 
       if [[ "$i" < "$j" ]]
         then
-          python2 main.py -s True -cd $i $j -qd $j
+          python2 main.py -s True -cd $i $j -qd $j -all_latest True
       fi
     done
 done
-
-

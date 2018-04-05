@@ -4,3 +4,13 @@ for i in ASPLOS ATC CCGRID CCS CIDR CoNEXT EuroPar EuroSys FAST HCW HotCloud Hot
 do
   python2 main.py -s True -qd ${i}_* -cd ${i}_* -name $i -same True
 done
+
+
+
+for i in ASPLOS_* ATC_* CCGRID_* CCS_* CIDR_* CoNEXT_* EuroPar_* EuroSys_* FAST_* HCW_* HotCloud_* HotI_* HotOS_* HotStorage_* HPCA_* HPDC_* ICAC_* ICPE_* IMC_* ISC_* ISCA_* ISPASS_* KDD_* MASCOTS_* MICRO_* Middleware_* MobiCom_* NDSS_* PLDI_* PODC_* PODS_* PPoPP_* SC_* SIGCOMM_* SIGIR_* SIGMETRICS_* SIGMOD_* SLE_* SOCC_* SOSP_* SP_* SPAA_* SYSTOR_* VEE_*
+do 
+  for j in _______/Desktop/ThesisCSpapers/ $i .cermxml
+  do 
+    for k in _______/Desktop/ThesisCSpapers/ $i .cermxml
+    do
+      if 

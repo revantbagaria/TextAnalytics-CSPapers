@@ -44,7 +44,7 @@ def compute_cosine_similarity(doc_features, corpus_features):
 	indices_returned.extend(range(1, len(corpus_features.toarray()) + 1))
 	return similarity, indices_returned
 
-def latest(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
+def all_latest_func(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
 	
 	query_tfidf_features = query_tfidf_features.toarray()
 	result, matrix = [], []
@@ -71,6 +71,34 @@ def latest(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_qu
 		df2.loc[titles_query[index], titles_corpus[res[0][1]]] = res[0][0]
 		df2.loc[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
 		df2.to_csv("similarity_full.csv", mode='w')
+
+def combined_latest_func(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
+
+	query_tfidf_features = query_tfidf_features.toarray()
+	result, matrix = [], []
+
+	for index, doc_tfidf in enumerate(query_tfidf_features):
+		similarities, _ = compute_cosine_similarity(doc_tfidf, corpus_tfidf_features)
+
+		indices = [i for i in range(len(similarities))]
+		res = zip(similarities, indices)
+
+		for i, each in enumerate(res):
+			if abs(each[0]-1.00) <= 0.01:
+				del res[i]
+				break
+
+		df = pd.read_csv('similarity_combined_half.csv', index_col='Names')
+		# df = df.set_index('Names')
+		df.loc[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
+		# df.at[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
+		df.to_csv("similarity_combined_half.csv", mode='w')
+
+		df2 = pd.read_csv('similarity_combined_full.csv', index_col='Names')
+		# df = df.set_index('Names')
+		df2.loc[titles_query[index], titles_corpus[res[0][1]]] = res[0][0]
+		df2.loc[titles_corpus[res[0][1]], titles_query[index]] = res[0][0]
+		df2.to_csv("similarity_combined_full.csv", mode='w')
 
 
 def findIndividualSimilarities(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name=None):
@@ -140,7 +168,7 @@ def findSummarySimilarities(query_tfidf_features, corpus_tfidf_features, titles_
 	f.close()
 
 
-def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, same, name=None):
+def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_append, all_latest, combined_latest, same, name=None):
 
 	if not corpus_docs:
 		corpus_docs = corpus_docs_append
@@ -152,23 +180,41 @@ def generate_similarity(corpus_docs, query_docs, corpus_docs_append, query_docs_
 		print("Please enter both, corpus_docs and query_docs.")
 		exit(1)
 
-	# corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
-	corpus_docs_extended = corpus_docs
+	if all_latest:
+		corpus_docs_extended = corpus_docs
+		titles_corpus = generate_titles(corpus_docs_extended)
+		norm_corpus = generate_text_list.generate_text_list(corpus_docs_extended)
+		corpus_tfidf_vectorizer, corpus_tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
+															feature_type='tfidf',
+															ngram_range=(1, 1), 
+															min_df=0.0, max_df=1.0)
+		
+		query_docs_extended = query_docs
+		titles_query = generate_titles(query_docs_extended)
+		norm_query = generate_text_list.generate_text_list(query_docs_extended)
+		query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)
+
+		all_latest_func(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)	
+		return
+
+
+	corpus_docs_extended = findThePapers.findThePapers(corpus_docs)
 	titles_corpus = generate_titles(corpus_docs_extended)
 	norm_corpus = generate_text_list.generate_text_list(corpus_docs_extended)
 	corpus_tfidf_vectorizer, corpus_tfidf_features = feature_extractor.build_feature_matrix(norm_corpus,
 														feature_type='tfidf',
 														ngram_range=(1, 1), 
 														min_df=0.0, max_df=1.0)
-	# query_docs_extended = findThePapers.findThePapers(query_docs)
-	query_docs_extended = query_docs
+	query_docs_extended = findThePapers.findThePapers(query_docs)
 	titles_query = generate_titles(query_docs_extended)
 	norm_query = generate_text_list.generate_text_list(query_docs_extended)
 	query_tfidf_features = corpus_tfidf_vectorizer.transform(norm_query)
 
-	# tfidf_stats(query_tfidf_features, titles_query)
+	if combined_latest:
+		combined_latest_func(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)
+		return
 
-	latest(query_tfidf_features, corpus_tfidf_features, titles_corpus, titles_query, name)	
+	# tfidf_stats(query_tfidf_features, titles_query)
 
 	# print 'Document Similarity Analysis using Cosine Similarity'
 	# print '='*60
