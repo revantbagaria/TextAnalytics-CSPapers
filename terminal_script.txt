@@ -49,9 +49,3 @@ for f in /Users/Revant/Desktop/ThesisCSpapers/*.cermxml
 do
    echo $f
 done
-
-
-
-
-
-python2 main.py -s True -cd $i -qd $j
