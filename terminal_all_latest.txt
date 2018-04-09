@@ -1,15 +1,45 @@
 #!/bin/bash
 
 
-python2 current.py
+# python2 current.py
 
-for i in /home/bagariar/Desktop/ThesisCSpapers/*.cermxml
+# for i in /home/bagariar/Desktop/ThesisCSpapers/*.cermxml
+# do
+#   for j in /home/bagariar/Desktop/ThesisCSpapers/*.cermxml
+#     do 
+#       if [[ "$i" < "$j" ]]
+#         then
+#           python2 main.py -s True -cd $i $j -qd $j -all_latest True
+#       fi
+#     done
+# done
+
+
+# cat foo.txt
+
+# head -2 foo.txt
+
+
+# while IFS='' read -r line || [[ -n "$line" ]]; do
+#     echo "Text read from file: $line"
+# done < foo.txt
+
+
+# for next in `cat foo.txt`
+# do
+
+# 	echo $next
+# done
+
+
+
+for line in `tail -n +2 foo.txt`
 do
-  for j in /home/bagariar/Desktop/ThesisCSpapers/*.cermxml
-    do 
-      if [[ "$i" < "$j" ]]
-        then
-          python2 main.py -s True -cd $i $j -qd $j -all_latest True
-      fi
-    done
+	echo $line
 done
+
+
+# for line in `tail -n  foo.txt`
+# do
+# 	echo $line
+# done

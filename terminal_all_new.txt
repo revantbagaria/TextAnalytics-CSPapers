@@ -1,0 +1,14 @@
+#!/bin/bash
+
+python2 current_latest.py -dn 80
+
+while IFS='' read -r line || [[ -n "$line" ]]; do
+	arr=(`echo ${line}`);
+    # echo ${arr[0]}
+    # echo ${arr[1]}
+    for line in `tail -n +${arr[0]} titles.txt`
+    do
+	  # echo ${arr[1]} $line
+	  python2 main.py -s True -all_latest True -cd ${arr[1]} $line -qd $line -dn 80
+    done
+done < 80.txt
