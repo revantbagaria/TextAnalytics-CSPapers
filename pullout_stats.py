@@ -62,6 +62,7 @@ def pullout_stats(filename):
 	# row.append(str(np.percentile(extract_similarities, 75)))
 	# row.append(str(np.std(extract_similarities)))
 	# row.append(str(np.max(extract_similarities)))
+	
 	# row.append(str(np.min(extract_similarities)))
 
 	# with open("intraconf_stats_latest.csv", "a") as f:

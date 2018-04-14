@@ -1,5 +1,8 @@
+
 import matplotlib.pyplot as plt, numpy as np, random, pandas as pd
+plt.style.use('ggplot')
 import findThePapers, generate_text_list, feature_extractor
+from generate_titles import generate_titles
 from collections import Counter, defaultdict
 from sklearn.cluster import KMeans, AffinityPropagation
 from sklearn.manifold import MDS
@@ -9,7 +12,6 @@ import hdbscan
 from sklearn.cluster import DBSCAN
 from sklearn.decomposition import PCA
 from scipy.cluster.hierarchy import ward, dendrogram
-
 
 
 
@@ -70,7 +72,9 @@ def plot_clusters(num_clusters, feature_matrix,
         ax.text(cluster_plot_frame.ix[index]['x'], 
                 cluster_plot_frame.ix[index]['y'], 
                 cluster_plot_frame.ix[index]['title'], size=8)  
-    # show the plot           
+    # show the plot
+    plt.title("Clustering")  
+    plt.savefig('foo2.png')     
     plt.show() 
 
 
@@ -160,7 +164,7 @@ def k_means(feature_matrix, titles, feature_names, num_clusters=5):
               cluster_data=cluster_data, 
               clusters=clusters,
               titles = titles,
-              plot_size=(16,8))  
+              plot_size=(10,5))  
 
 def dbscan_clustering(feature_matrix, titles, min_samples=2, eps=0.3):
     dbscan = DBSCAN(min_samples, eps)
@@ -221,9 +225,13 @@ def ward_hierarchical_clustering(feature_matrix, titles):
                                figure_size=(8,10))
 
 
-def clustering(files, knn_clustering, affinity_prop, db, hdb, ward):
+def clustering(files, files_append, knn_clustering, affinity_prop, db, hdb, ward):
+
+    if not files:
+        files = files_append   
 
     files_extended = findThePapers.findThePapers(files)
+    titles = generate_titles(files_extended)    
     files_text = generate_text_list.generate_text_list(files_extended)
     files_tfidf_vectorizer, files_tfidf_features = feature_extractor.build_feature_matrix(files_text,
                                                         feature_type='tfidf',
@@ -231,11 +239,9 @@ def clustering(files, knn_clustering, affinity_prop, db, hdb, ward):
                                                         min_df=0.24, max_df=0.85)
     feature_names = files_tfidf_vectorizer.get_feature_names()
 
-    titles = []
-
-    for each in files_extended:
-      index = each.rfind('/')
-      titles.append(each[index+1:])
+    # for each in files_extended:
+    #   index = each.rfind('/')
+    #   titles.append(each[index+1:])
 
     if knn_clustering:
         k_means(files_tfidf_features.toarray(), titles, feature_names, int(knn_clustering))
