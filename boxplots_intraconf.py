@@ -1,5 +1,5 @@
 import csv
-import glob
+import glob, pickle
 from os.path import expanduser
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -34,10 +34,14 @@ for each in result:
 
 	similarities = np.array(similarities)
 	similarities_all.append((similarities, name))
-	similarities_all.sort(reverse=True, key=lambda a: np.std(a[0]))
 
+similarities_all.append((pickle.load(open("all_to_all_similarities.txt", "r")), "ALL_to_ALL.csv"))
+similarities_all.sort(reverse=True, key=lambda a: np.mean(a[0]))
 
 labels, data = [], []
+
+# labels.append("ALL_to_ALL")
+# data.append(pickle.load(open("all_to_all_similarities.txt", "r")))
 
 for each in similarities_all:
 	name = each[1]
@@ -45,9 +49,10 @@ for each in similarities_all:
 	labels.append(name)
 	data.append(each[0])
 
+# data = np.log10(data)
 plt.style.use('ggplot')
 plt.boxplot(data, vert=False, showmeans=True)
 plt.yticks(np.arange(len(labels))+1, labels)
 plt.legend()
-plt.title("Intra-Conference Similarities (sorted by std)")
+plt.title("Intra-Conference & All-to-All Similarities (sorted by mean)")
 plt.show()

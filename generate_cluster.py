@@ -65,8 +65,8 @@ def plot_clusters(num_clusters, feature_matrix,
                         labelleft='off')
     fontP = FontProperties()
     fontP.set_size('small')    
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.01), fancybox=True, 
-              shadow=True, ncol=5, numpoints=1, prop=fontP) 
+    lgd = ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.01), fancybox=True, 
+              shadow=True, ncol=5, numpoints=1, prop=fontP, fontsize='xx-small') 
     #add labels as the film titles
     for index in range(len(cluster_plot_frame)):
         ax.text(cluster_plot_frame.ix[index]['x'], 
@@ -74,7 +74,9 @@ def plot_clusters(num_clusters, feature_matrix,
                 cluster_plot_frame.ix[index]['title'], size=8)  
     # show the plot
     plt.title("Clustering")  
-    plt.savefig('foo2.png')     
+    plt.savefig('InterConfCluster.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    # plt.savefig('foo2.png')   
+    # plt.tight_layout(pad=7)  
     plt.show() 
 
 

@@ -3,6 +3,8 @@ import numpy as np
 import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy.stats import norm
+import re, pickle
 
 
 def pullout_stats(filename):
@@ -14,6 +16,15 @@ def pullout_stats(filename):
 		no_papers += len(titles)
 		for i, row in enumerate(reader):
 			for j, each in enumerate(row):
+				# test_for = ["PLDI", "KDD", "SIGIR", "SLE"]
+				# flag = 0
+				# for term in test_for:
+				# 	if re.search(term, titles[i+1]):
+				# 		flag = 1
+				# 	if re.search(term, titles[j]):
+				# 		flag = 1
+				# if flag == 1:
+				# 	continue
 				try:
 					float(each)
 					t = (float(each), (titles[i+1], titles[j]))
@@ -23,14 +34,14 @@ def pullout_stats(filename):
 	
 	similarities.sort(key = lambda a: a[0], reverse=True)
 	
-	print("Following the highest 10 similarity pairs:")
-	for i in range(0, 20, 2):
+	print("Following the highest 30 similarity pairs:")
+	for i in range(60):
 		print(similarities[i])
 
 	print("")
 
-	print("Following the lowest 10 similarity pairs:")
-	for i in range(len(similarities)-20, len(similarities), 2):
+	print("Following the lowest 30 similarity pairs:")
+	for i in range(len(similarities)-60, len(similarities)):
 		print(similarities[i])
 
 	print("")
@@ -39,6 +50,8 @@ def pullout_stats(filename):
 
 	for each in similarities:
 		extract_similarities.append(each[0])
+
+	# pickle.dump(extract_similarities, open("all_to_all_similarities.txt", "w"))
 
 	extract_similarities = np.array(extract_similarities)
 
@@ -70,6 +83,7 @@ def pullout_stats(filename):
 	#     writer.writerow(row)
 
 
+	# extract_similarities = np.log10(extract_similarities)
 	# df = pd.DataFrame()
 	# df['similarities'] = extract_similarities
 	# df['index_col'] = range(1, len(df)+1)
@@ -81,6 +95,9 @@ def pullout_stats(filename):
 	# df.plot(kind='scatter', title= 'Similarity for individual papers', x='index_col', y='similarities', alpha = 0.03)
 	# ax = df.plot.hexbin(gridsize =25, x='index_col', y='similarities', yscale = 'log', title= 'Similarity for individual papers')
 	# ax = df.plot.hexbin(gridsize =25, x='index_col', y='similarities', title= 'Similarity for individual papers')
+	# plt.plot(extract_similarities, norm.cdf(extract_similarities))
+	# plt.boxplot(extract_similarities, vert=False, showmeans=True)
+	# plt.savefig("asasa.png")
 	# plt.show()
 
 if __name__ == '__main__':
