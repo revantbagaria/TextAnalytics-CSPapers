@@ -74,7 +74,7 @@ def plot_clusters(num_clusters, feature_matrix,
                 cluster_plot_frame.ix[index]['title'], size=8)  
     # show the plot
     plt.title("Clustering")  
-    plt.savefig('ATC_aff.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    plt.savefig('ASPLOS_aff.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
     # plt.savefig('foo2.png')   
     # plt.tight_layout(pad=7)  
     plt.show() 
