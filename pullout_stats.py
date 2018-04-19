@@ -34,13 +34,13 @@ def pullout_stats(filename):
 	
 	similarities.sort(key = lambda a: a[0], reverse=True)
 	
-	print("Following the highest 30 similarity pairs:")
+	print("Following the highest 60 similarity pairs:")
 	for i in range(60):
 		print(similarities[i])
 
 	print("")
 
-	print("Following the lowest 30 similarity pairs:")
+	print("Following the lowest 60 similarity pairs:")
 	for i in range(len(similarities)-60, len(similarities)):
 		print(similarities[i])
 
